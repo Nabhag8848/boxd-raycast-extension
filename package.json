@@ -1,0 +1,57 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "boxd",
+  "title": "boxd",
+  "description": "Composable computers for devs and agents — manage your machines from Raycast.",
+  "icon": "extension-icon.png",
+  "author": "NabhagMotivaras",
+  "platforms": [
+    "Windows",
+    "macOS"
+  ],
+  "categories": [
+    "Developer Tools"
+  ],
+  "license": "MIT",
+  "preferences": [
+    {
+      "name": "apiKey",
+      "type": "password",
+      "required": true,
+      "title": "API Key",
+      "description": "boxd API key (bxd_…). Create with `boxd auth keys create NAME` or in the boxd console.",
+      "placeholder": "bxd_..."
+    }
+  ],
+  "commands": [
+    {
+      "name": "list-machines",
+      "title": "List Machines",
+      "subtitle": "boxd",
+      "description": "Browse your boxd computers — running, sleeping, and hibernated.",
+      "mode": "view"
+    }
+  ],
+  "tools": [],
+  "dependencies": {
+    "@boxd-sh/sdk": "^0.3.5",
+    "@raycast/api": "^2.13.1",
+    "@raycast/utils": "^2.2.7"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.2.0",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "eslint": "^10.13.0",
+    "prettier": "^3.9.10",
+    "typescript": "^6.0.3"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "prepublishOnly": "echo \"\\n\\nIt seems like you are trying to publish the Raycast extension to npm.\\n\\nIf you did intend to publish it to npm, remove the \\`prepublishOnly\\` script and rerun \\`npm publish\\` again.\\nIf you wanted to publish it to the Raycast Store instead, use \\`npm run publish\\` instead.\\n\\n\" && exit 1",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
