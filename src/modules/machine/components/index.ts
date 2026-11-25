@@ -1,3 +1,4 @@
+export { MachineListActions } from "@/modules/machine/components/machine-list-actions";
 export { IsolatedFormField } from "@/modules/machine/components/isolated-field";
 export { MachineNameFormField } from "@/modules/machine/components/name-field";
 export { MachineRegionFormField } from "@/modules/machine/components/region-field";

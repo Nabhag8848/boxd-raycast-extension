@@ -1,10 +1,15 @@
 export {
   IsolatedFormField,
+  MachineListActions,
   MachineNameFormField,
   MachineRegionFormField,
   SpecSizeFormField,
 } from "@/modules/machine/components";
 export { useRegionPlacement } from "@/modules/machine/hooks";
+export {
+  confirmDeleteMachine,
+  DELETE_MACHINE_SHORTCUT,
+} from "@/modules/machine/actions";
 export {
   toMachineCreateParams,
   type CreateMachineFormInput,

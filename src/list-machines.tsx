@@ -1,5 +1,6 @@
-import { Action, ActionPanel, Color, Icon, List } from "@raycast/api";
+import { ActionPanel, Color, Icon, List } from "@raycast/api";
 import type { Machine, MachineStatus } from "@boxd-sh/sdk";
+import { MachineListActions } from "@/modules/machine";
 import { regionListParam, useRegionScopedPromise } from "@/modules/region";
 import {
   API_KEY_REQUIRED_DESCRIPTION,
@@ -102,29 +103,11 @@ export default function Command() {
             }}
             accessories={machineAccessories(machine)}
             actions={
-              <ActionPanel>
-                {machine.access.url ? (
-                  <Action.OpenInBrowser
-                    title="Open in Browser"
-                    url={machine.access.url}
-                  />
-                ) : null}
-                {machine.access.url ? (
-                  <Action.CopyToClipboard
-                    title="Copy URL"
-                    content={machine.access.url}
-                  />
-                ) : null}
-                <Action.CopyToClipboard
-                  title="Copy Name"
-                  content={machine.name}
-                />
-                <Action
-                  title="Refresh"
-                  icon={Icon.ArrowClockwise}
-                  onAction={() => revalidate()}
-                />
-              </ActionPanel>
+              <MachineListActions
+                machine={machine}
+                onRefresh={revalidate}
+                onDeleted={revalidate}
+              />
             }
           />
         ))}
