@@ -5,6 +5,7 @@ import {
 } from "@boxd-sh/sdk";
 import {
   type RegionFormValue,
+  type RegionPlacementContext,
   toMachineCreateRegion,
 } from "@/modules/machine/lib/regions";
 import {
@@ -38,23 +39,22 @@ function toMachineSpec(size: SpecFormValue, isolated: boolean): MachineSpec {
 /** Form values → `machines.create` params (cluster default image). */
 export function toMachineCreateParams(
   input: CreateMachineFormInput,
+  placement: RegionPlacementContext,
 ): MachineCreateParams {
-  const region = toMachineCreateRegion(input.region);
+  const region = toMachineCreateRegion(input.region, placement);
   const name = input.name?.trim();
   const spec = toMachineSpec(input.size, input.isolated);
-
-  const placement = region ? { region } : {};
 
   if (name) {
     return {
       name,
-      ...placement,
+      region,
       spec,
     };
   }
 
   return {
-    ...placement,
+    region,
     spec,
   };
 }

@@ -28,6 +28,10 @@ export class BoxdClient {
     return this.client.regions.list(params);
   }
 
+  async getOrgDefaultRegion(org?: string): Promise<string | null> {
+    return this.client.orgs.getDefaultRegion(org);
+  }
+
   async listMachines(params?: MachineListParams): Promise<Machine[]> {
     return this.client.machines.list(params);
   }

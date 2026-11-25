@@ -4,22 +4,15 @@ export {
   MachineRegionFormField,
   SpecSizeFormField,
 } from "@/modules/machine/components";
+export { useRegionPlacement } from "@/modules/machine/hooks";
 export {
   toMachineCreateParams,
   type CreateMachineFormInput,
 } from "@/modules/machine/lib/create-params";
 export {
-  CLOSEST_REGION,
-  CLOSEST_REGION_OPTION,
   DEFAULT_REGION_FORM_VALUE,
-  ORG_DEFAULT_REGION,
-  ORG_DEFAULT_REGION_OPTION,
-  isClosestRegion,
-  isOrgDefaultRegion,
-  toMachineCreateRegion,
-  type ClosestRegion,
-  type OrgDefaultRegion,
   type RegionFormValue,
+  type RegionPlacementContext,
 } from "@/modules/machine/lib/regions";
 export {
   DEFAULT_SPEC_FORM_VALUE,
@@ -36,5 +29,6 @@ export type {
   IsolatedFormFieldProps,
   MachineNameFormFieldProps,
   MachineRegionFormFieldProps,
+  RegionPlacementResult,
   SpecSizeFormFieldProps,
 } from "@/modules/machine/types";

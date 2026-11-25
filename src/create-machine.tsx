@@ -1,6 +1,5 @@
 import { Action, Form, popToRoot, showToast, Toast } from "@raycast/api";
 import { useForm } from "@raycast/utils";
-import { useMemo } from "react";
 import { boxdClient } from "@/lib/boxd";
 import {
   toMachineCreateParams,
@@ -11,8 +10,8 @@ import {
   MachineRegionFormField,
   SpecSizeFormField,
   type CreateMachineFormInput,
+  useRegionPlacement,
 } from "@/modules/machine";
-import { compareRegionsByName, useRegionsCatalog } from "@/modules/region";
 import {
   FormLoadErrorActions,
   FormLoadErrorDescriptions,
@@ -20,15 +19,8 @@ import {
 } from "@/modules/shared";
 
 export default function Command() {
-  const { regions, regionsLoading, regionsError, reloadRegions } =
-    useRegionsCatalog();
-
-  const sortedRegions = useMemo(() => {
-    if (!regions) {
-      return [];
-    }
-    return regions.toSorted(compareRegionsByName);
-  }, [regions]);
+  const { sortedRegions, placementContext, isLoading, error, reload } =
+    useRegionPlacement();
 
   const { handleSubmit, itemProps } = useForm<CreateMachineFormInput>({
     async onSubmit(values) {
@@ -39,12 +31,15 @@ export default function Command() {
 
       try {
         const machine = await boxdClient.createMachine(
-          toMachineCreateParams({
-            name: values.name,
-            region: values.region,
-            size: values.size,
-            isolated: values.isolated,
-          }),
+          toMachineCreateParams(
+            {
+              name: values.name,
+              region: values.region,
+              size: values.size,
+              isolated: values.isolated,
+            },
+            placementContext,
+          ),
         );
 
         await toast.hide();
@@ -75,19 +70,19 @@ export default function Command() {
   });
 
   const regionsCatalogLoad = {
-    error: regionsError,
-    loading: regionsLoading,
+    error,
+    loading: isLoading,
     isEmpty: false,
   };
   const regionsCatalogReady = isFormAsyncLoadReady(regionsCatalogLoad);
 
   return (
     <Form
-      isLoading={regionsLoading}
+      isLoading={isLoading}
       actions={
         <FormLoadErrorActions
-          error={regionsError}
-          onRetry={reloadRegions}
+          error={error}
+          onRetry={reload}
           retryTitle="Reload Regions"
           submit={
             regionsCatalogReady ? (
