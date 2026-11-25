@@ -7,4 +7,4 @@ export type {
   MachineNameFormFieldProps,
   MachineRegionFormFieldProps,
   SpecSizeFormFieldProps,
-} from "@/modules/machine/types/ui";
+} from "@/modules/machine/types/form";

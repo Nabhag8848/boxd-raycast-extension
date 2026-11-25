@@ -1,8 +1,9 @@
-import { Action, Form, popToRoot, showToast, Toast } from "@raycast/api";
+import { Action, Form } from "@raycast/api";
 import { useForm } from "@raycast/utils";
-import { withBoxdClient } from "@/lib/boxd";
+import { createMachineWithFeedback } from "@/modules/machine/actions";
 import {
-  toMachineCreateParams,
+  CREATE_MACHINE_REGIONS_LOAD_ERROR_TITLE,
+  CREATE_MACHINE_RELOAD_REGIONS_TITLE,
   DEFAULT_REGION_FORM_VALUE,
   DEFAULT_SPEC_FORM_VALUE,
   IsolatedFormField,
@@ -29,44 +30,7 @@ export default function Command() {
 
   const { handleSubmit, itemProps } = useForm<CreateMachineFormInput>({
     async onSubmit(values) {
-      const toast = await showToast({
-        style: Toast.Style.Animated,
-        title: "Creating machine…",
-      });
-
-      try {
-        const machine = await withBoxdClient((client) =>
-          client.createMachine(
-            toMachineCreateParams(
-              {
-                name: values.name,
-                region: values.region,
-                size: values.size,
-                isolated: values.isolated,
-              },
-              placementContext,
-            ),
-          ),
-        );
-
-        await toast.hide();
-        await showToast({
-          style: Toast.Style.Success,
-          title: "Machine created",
-          message: machine.name,
-        });
-        await popToRoot();
-      } catch (error) {
-        await toast.hide();
-        const message =
-          error instanceof Error ? error.message : "Request failed";
-        await showToast({
-          style: Toast.Style.Failure,
-          title: "Could not create machine",
-          message,
-        });
-        throw new Error(message);
-      }
+      await createMachineWithFeedback(values, placementContext);
     },
     initialValues: {
       name: undefined,
@@ -90,7 +54,7 @@ export default function Command() {
         <FormLoadErrorActions
           error={regionPlacementError}
           onRetry={reloadRegionPlacement}
-          retryTitle="Reload Regions"
+          retryTitle={CREATE_MACHINE_RELOAD_REGIONS_TITLE}
           submit={
             regionsCatalogReady ? (
               <Action.SubmitForm
@@ -104,7 +68,7 @@ export default function Command() {
     >
       <FormLoadErrorDescriptions
         {...regionsCatalogLoad}
-        loadErrorTitle="Could not load regions"
+        loadErrorTitle={CREATE_MACHINE_REGIONS_LOAD_ERROR_TITLE}
         showNoRegionsEmpty={false}
       />
 

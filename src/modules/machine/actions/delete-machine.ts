@@ -1,6 +1,6 @@
 import { Alert, confirmAlert, showToast, Toast } from "@raycast/api";
 import type { Machine } from "@boxd-sh/sdk";
-import { manageMachine } from "@/modules/machine/lib/manage-machine";
+import { manageMachine } from "@/modules/machine/lib/manage/machine";
 
 type ConfirmDeleteMachineOptions = Readonly<{
   onDeleted?: () => void;

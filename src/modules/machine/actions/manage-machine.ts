@@ -3,8 +3,8 @@ import type { Machine } from "@boxd-sh/sdk";
 import {
   machineManageActionLabel,
   type MachineManageAction,
-} from "@/modules/machine/lib/manage-actions";
-import { manageMachine } from "@/modules/machine/lib/manage-machine";
+} from "@/modules/machine/lib/manage/actions";
+import { manageMachine } from "@/modules/machine/lib/manage/machine";
 
 /** Extra list refresh after start — status often lags before `running`. */
 const START_MACHINE_FOLLOW_UP_REFRESH_MS = 2000;

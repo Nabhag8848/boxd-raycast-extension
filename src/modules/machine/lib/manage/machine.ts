@@ -1,6 +1,6 @@
 import type { Machine } from "@boxd-sh/sdk";
 import { withBoxdClient } from "@/lib/boxd";
-import type { MachineManageAction } from "@/modules/machine/lib/manage-actions";
+import type { MachineManageAction } from "@/modules/machine/lib/manage/actions";
 
 /** Grace period before tearing down the SDK channel after a manage call. */
 const MANAGE_MACHINE_CLOSE_AFTER_MS = 2000;

@@ -9,7 +9,7 @@ import {
   machineManageActionLabel,
   machineManageActionsForStatus,
   machineManageActionShortcut,
-} from "@/modules/machine/lib/manage-actions";
+} from "@/modules/machine/lib/manage/actions";
 import type { ReactElement } from "react";
 
 type MachineListActionsProps = Readonly<{

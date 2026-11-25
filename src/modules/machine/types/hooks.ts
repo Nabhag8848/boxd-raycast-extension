@@ -1,5 +1,5 @@
 import type { Machine, Region } from "@boxd-sh/sdk";
-import type { RegionPlacementContext } from "@/modules/machine/lib/regions";
+import type { RegionPlacementContext } from "@/modules/machine/lib/create/regions";
 import type { RegionFilterResult } from "@/modules/region/types";
 
 export type MachineListResult = RegionFilterResult &

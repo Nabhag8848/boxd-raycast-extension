@@ -2,10 +2,11 @@ import { List } from "@raycast/api";
 import {
   MachineListEmptyView,
   MachineListItem,
-  MachineListLoadErrorEmptyView,
-  useMachineList,
+  MACHINE_LIST_LOAD_ERROR_TITLE,
   MACHINE_LIST_SEARCH_PLACEHOLDER,
+  useMachineList,
 } from "@/modules/machine";
+import { ListLoadErrorEmptyView } from "@/modules/shared";
 
 export default function Command() {
   const {
@@ -23,8 +24,9 @@ export default function Command() {
       searchBarAccessory={searchBarAccessory}
     >
       {machineListError ? (
-        <MachineListLoadErrorEmptyView
+        <ListLoadErrorEmptyView
           error={machineListError}
+          loadErrorTitle={MACHINE_LIST_LOAD_ERROR_TITLE}
           onRetry={reloadMachineList}
         />
       ) : null}

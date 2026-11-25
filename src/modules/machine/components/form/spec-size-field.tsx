@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 import {
   MACHINE_SIZE_OPTIONS,
   ORG_DEFAULT_SPEC_OPTION,
-} from "@/modules/machine/lib/sizes";
+} from "@/modules/machine/lib/create/sizes";
 import type { SpecSizeFormFieldProps } from "@/modules/machine/types";
 import { FormDropdownField } from "@/modules/shared";
 

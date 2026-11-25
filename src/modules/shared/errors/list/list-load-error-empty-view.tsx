@@ -1,30 +1,26 @@
 import { ActionPanel, List } from "@raycast/api";
 import {
+  OpenPreferencesAction,
+  TryAgainAction,
+} from "@/modules/shared/errors/actions";
+import {
   API_KEY_REQUIRED_DESCRIPTION,
   API_KEY_REQUIRED_TITLE,
   isMissingApiKeyError,
-  OpenPreferencesAction,
-  TryAgainAction,
-} from "@/modules/shared";
-import { MACHINE_LIST_LOAD_ERROR_TITLE } from "@/modules/machine/lib/list-machines-query";
+} from "@/modules/shared/errors/api-key";
+import type { ListLoadErrorEmptyViewProps } from "@/modules/shared/errors/types";
 import type { ReactElement } from "react";
 
-type MachineListLoadErrorEmptyViewProps = Readonly<{
-  error: Error;
-  onRetry: () => void;
-}>;
-
-export function MachineListLoadErrorEmptyView({
+export function ListLoadErrorEmptyView({
   error,
+  loadErrorTitle,
   onRetry,
-}: MachineListLoadErrorEmptyViewProps): ReactElement {
+}: ListLoadErrorEmptyViewProps): ReactElement {
   const missingKey = isMissingApiKeyError(error);
 
   return (
     <List.EmptyView
-      title={
-        missingKey ? API_KEY_REQUIRED_TITLE : MACHINE_LIST_LOAD_ERROR_TITLE
-      }
+      title={missingKey ? API_KEY_REQUIRED_TITLE : loadErrorTitle}
       description={missingKey ? API_KEY_REQUIRED_DESCRIPTION : error.message}
       actions={
         <ActionPanel>

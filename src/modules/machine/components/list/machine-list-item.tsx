@@ -1,11 +1,11 @@
 import { Icon, List } from "@raycast/api";
 import type { Machine } from "@boxd-sh/sdk";
-import { MachineListActions } from "@/modules/machine/components/machine-list-actions";
+import { MachineListActions } from "@/modules/machine/components/list/machine-list-actions";
 import {
   machineListAccessories,
   machineStatusTint,
-} from "@/modules/machine/lib/machine-list";
-import { machineListItemKeywords } from "@/modules/machine/lib/list-machines-query";
+} from "@/modules/machine/lib/list/display";
+import { machineListItemKeywords } from "@/modules/machine/lib/list/query";
 import type { ReactElement } from "react";
 
 type MachineListItemProps = Readonly<{

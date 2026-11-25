@@ -1,5 +1,5 @@
 import { useRegionScopedPromise } from "@/modules/region/hooks/use-region-scoped-promise";
-import { fetchSortedMachines } from "@/modules/machine/lib/list-machines-query";
+import { fetchSortedMachines } from "@/modules/machine/lib/list/query";
 import type { MachineListResult } from "@/modules/machine/types/hooks";
 
 /** Region-filtered machines for the List Machines command. */

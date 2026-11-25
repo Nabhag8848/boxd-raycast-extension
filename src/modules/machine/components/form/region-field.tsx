@@ -1,6 +1,6 @@
 import type { Region } from "@boxd-sh/sdk";
 import type { ReactElement } from "react";
-import { ORG_DEFAULT_REGION_OPTION } from "@/modules/machine/lib/regions";
+import { ORG_DEFAULT_REGION_OPTION } from "@/modules/machine/lib/create/regions";
 import { FormDropdownField } from "@/modules/shared";
 import type { MachineRegionFormFieldProps } from "@/modules/machine/types";
 

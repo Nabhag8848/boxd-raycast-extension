@@ -7,11 +7,11 @@ import {
   type RegionFormValue,
   type RegionPlacementContext,
   toMachineCreateRegion,
-} from "@/modules/machine/lib/regions";
+} from "@/modules/machine/lib/create/regions";
 import {
   isOrgDefaultMachineSize,
   type SpecFormValue,
-} from "@/modules/machine/lib/sizes";
+} from "@/modules/machine/lib/create/sizes";
 
 export type CreateMachineFormInput = Readonly<{
   name?: string;
