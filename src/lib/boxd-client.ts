@@ -1,11 +1,17 @@
 import { getPreferenceValues } from "@raycast/api";
+import { MISSING_API_KEY_CODE } from "@/modules/shared/errors/api-key";
 import { Boxd } from "@boxd-sh/sdk";
-import type { Machine, MachineListParams, Region } from "@boxd-sh/sdk";
+import type {
+  Machine,
+  MachineCreateParams,
+  MachineListParams,
+  Region,
+} from "@boxd-sh/sdk";
 
 function requireApiKey(): string {
   const key = getPreferenceValues<Preferences>().apiKey?.trim();
   if (!key) {
-    throw new Error("missing-api-key");
+    throw new Error(MISSING_API_KEY_CODE);
   }
   return key;
 }
@@ -24,6 +30,10 @@ export class BoxdClient {
 
   async listMachines(params?: MachineListParams): Promise<Machine[]> {
     return this.client.machines.list(params);
+  }
+
+  async createMachine(params: MachineCreateParams): Promise<Machine> {
+    return this.client.machines.create(params);
   }
 
   async close(): Promise<void> {

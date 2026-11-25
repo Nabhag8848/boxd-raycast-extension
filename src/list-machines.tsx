@@ -1,13 +1,13 @@
-import {
-  Action,
-  ActionPanel,
-  Color,
-  Icon,
-  List,
-  openExtensionPreferences,
-} from "@raycast/api";
+import { Action, ActionPanel, Color, Icon, List } from "@raycast/api";
 import type { Machine, MachineStatus } from "@boxd-sh/sdk";
 import { regionListParam, useRegionScopedPromise } from "@/modules/region";
+import {
+  API_KEY_REQUIRED_DESCRIPTION,
+  API_KEY_REQUIRED_TITLE,
+  isMissingApiKeyError,
+  OpenPreferencesAction,
+  TryAgainAction,
+} from "@/modules/shared";
 import { boxdClient } from "@/lib/boxd";
 
 function statusTint(status: MachineStatus): Color {
@@ -58,7 +58,7 @@ export default function Command() {
     return list.toSorted((a, b) => a.name.localeCompare(b.name));
   });
 
-  const missingKey = error?.message === "missing-api-key";
+  const missingKey = isMissingApiKeyError(error);
 
   return (
     <List
@@ -68,26 +68,18 @@ export default function Command() {
     >
       {error && (
         <List.EmptyView
-          title={missingKey ? "API key required" : "Could not load machines"}
+          title={
+            missingKey ? API_KEY_REQUIRED_TITLE : "Could not load machines"
+          }
           description={
-            missingKey
-              ? "Add your boxd API key in extension preferences."
-              : error.message
+            missingKey ? API_KEY_REQUIRED_DESCRIPTION : error.message
           }
           actions={
             <ActionPanel>
               {missingKey ? (
-                <Action
-                  title="Open Preferences"
-                  icon={Icon.Gear}
-                  onAction={openExtensionPreferences}
-                />
+                <OpenPreferencesAction />
               ) : (
-                <Action
-                  title="Try Again"
-                  icon={Icon.ArrowClockwise}
-                  onAction={() => revalidate()}
-                />
+                <TryAgainAction onAction={() => revalidate()} />
               )}
             </ActionPanel>
           }

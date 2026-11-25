@@ -1,14 +1,15 @@
 # boxd for Raycast
 
-Manage [boxd](https://boxd.sh) cloud machines from Raycast. Browse computers across regions, see status at a glance, and open or copy machine URLs without switching apps.
+Manage [boxd](https://boxd.sh) machines from Raycast.
 
 Built with [@boxd-sh/sdk](https://docs.boxd.sh/reference/typescript-sdk) — no local `boxd` CLI required for the extension itself.
 
 ## Commands
 
-| Command           | Description                                                                                                                                                                                       |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **List Machines** | Searchable list of your machines. Region dropdown (All + API regions) beside search; choice is remembered across commands. Status tags, region label, open in browser, copy URL or name, refresh. |
+| Command            | Description                |
+| ------------------ | -------------------------- |
+| **List Machines**  | Browse your boxd machines. |
+| **Create Machine** | Create a boxd machine.     |
 
 ## Requirements
 
@@ -39,17 +40,18 @@ Or create one in the [boxd console](https://boxd.sh).
 
 ## Preferences
 
-| Name    | Type     | Required | Description                                         |
-| ------- | -------- | -------- | --------------------------------------------------- |
-| API Key | password | yes      | `bxd_…` from `boxd auth keys create` or the console |
+| Name    | Type     | Required | Description        |
+| ------- | -------- | -------- | ------------------ |
+| API Key | password | yes      | Your boxd API key. |
 
 ## Project layout
 
-| Path                     | Role                       |
-| ------------------------ | -------------------------- |
-| `src/list-machines.tsx`  | List Machines command      |
-| `src/lib/boxd-client.ts` | SDK wrapper (machines API) |
-| `package.json`           | Raycast manifest           |
+| Path                     | Role                   |
+| ------------------------ | ---------------------- |
+| `src/list-machines.tsx`  | List Machines command  |
+| `src/create-machine.tsx` | Create Machine command |
+| `src/lib/boxd-client.ts` | SDK wrapper            |
+| `package.json`           | Raycast manifest       |
 
 ## Development
 

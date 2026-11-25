@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
 type ExtensionPreferences = {
-  /** API Key - boxd API key (bxd_…). Create with `boxd auth keys create NAME` or in the boxd console. */
+  /** API Key - Your boxd API key. */
   "apiKey": string
 }
 
@@ -18,10 +18,14 @@ declare type Preferences = ExtensionPreferences
 declare namespace Preferences {
   /** Preferences accessible in the `list-machines` command */
   export type ListMachines = ExtensionPreferences & {}
+  /** Preferences accessible in the `create-machine` command */
+  export type CreateMachine = ExtensionPreferences & {}
 }
 
 declare namespace Arguments {
   /** Arguments passed to the `list-machines` command */
   export type ListMachines = {}
+  /** Arguments passed to the `create-machine` command */
+  export type CreateMachine = {}
 }
 
