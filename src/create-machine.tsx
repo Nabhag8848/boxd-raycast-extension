@@ -1,6 +1,6 @@
 import { Action, Form, popToRoot, showToast, Toast } from "@raycast/api";
 import { useForm } from "@raycast/utils";
-import { boxdClient } from "@/lib/boxd";
+import { withBoxdClient } from "@/lib/boxd";
 import {
   toMachineCreateParams,
   DEFAULT_REGION_FORM_VALUE,
@@ -35,15 +35,17 @@ export default function Command() {
       });
 
       try {
-        const machine = await boxdClient.createMachine(
-          toMachineCreateParams(
-            {
-              name: values.name,
-              region: values.region,
-              size: values.size,
-              isolated: values.isolated,
-            },
-            placementContext,
+        const machine = await withBoxdClient((client) =>
+          client.createMachine(
+            toMachineCreateParams(
+              {
+                name: values.name,
+                region: values.region,
+                size: values.size,
+                isolated: values.isolated,
+              },
+              placementContext,
+            ),
           ),
         );
 

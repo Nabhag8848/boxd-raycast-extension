@@ -6,9 +6,25 @@ import {
 } from "@/modules/machine/lib/manage-actions";
 import { manageMachine } from "@/modules/machine/lib/manage-machine";
 
+/** Extra list refresh after start — status often lags before `running`. */
+const START_MACHINE_FOLLOW_UP_REFRESH_MS = 2000;
+
 type ManageMachineWithFeedbackOptions = Readonly<{
   onComplete?: () => void;
 }>;
+
+function runOnComplete(
+  action: MachineManageAction,
+  onComplete?: () => void,
+): void {
+  if (!onComplete) {
+    return;
+  }
+  onComplete();
+  if (action === "start") {
+    setTimeout(onComplete, START_MACHINE_FOLLOW_UP_REFRESH_MS);
+  }
+}
 
 export async function manageMachineWithFeedback(
   machine: Machine,
@@ -30,7 +46,7 @@ export async function manageMachineWithFeedback(
       title: label,
       message: machine.name,
     });
-    onComplete?.();
+    runOnComplete(action, onComplete);
   } catch (error) {
     await toast.hide();
     const message = error instanceof Error ? error.message : "Request failed";

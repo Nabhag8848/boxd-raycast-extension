@@ -79,4 +79,44 @@ export class BoxdClient {
   }
 }
 
+/**
+ * Shared client for command views — region changes and revalidates keep using it.
+ * Prefer {@link withBoxdClient} when a single operation should tear down the channel.
+ */
 export const boxdClient = new BoxdClient(new Boxd({ apiKey: requireApiKey() }));
+
+export type WithBoxdClientOptions = Readonly<{
+  /**
+   * Close the transport this many ms after `run` settles. Does not delay the
+   * returned promise — only the background {@link BoxdClient.close}.
+   */
+  closeAfterMs?: number;
+}>;
+
+function createEphemeralBoxdClient(): BoxdClient {
+  return new BoxdClient(new Boxd({ apiKey: requireApiKey() }));
+}
+
+function closeBoxdClientAfter(client: BoxdClient, delayMs: number): void {
+  setTimeout(() => {
+    void client.close();
+  }, delayMs);
+}
+
+/** One client per call: run work, then {@link BoxdClient.close} in `finally`. */
+export async function withBoxdClient<T>(
+  run: (client: BoxdClient) => Promise<T>,
+  options?: WithBoxdClientOptions,
+): Promise<T> {
+  const client = createEphemeralBoxdClient();
+  try {
+    return await run(client);
+  } finally {
+    const closeAfterMs = options?.closeAfterMs;
+    if (closeAfterMs !== undefined && closeAfterMs > 0) {
+      closeBoxdClientAfter(client, closeAfterMs);
+    } else {
+      await client.close();
+    }
+  }
+}
