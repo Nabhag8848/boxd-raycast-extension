@@ -6,9 +6,9 @@ import {
   List,
   openExtensionPreferences,
 } from "@raycast/api";
-import { usePromise } from "@raycast/utils";
-import type { MachineStatus } from "@boxd-sh/sdk";
-import { boxdClient } from "./lib/boxd";
+import type { Machine, MachineStatus } from "@boxd-sh/sdk";
+import { regionListParam, useRegionScopedPromise } from "@/modules/region";
+import { boxdClient } from "@/lib/boxd";
 
 function statusTint(status: MachineStatus): Color {
   switch (status) {
@@ -31,21 +31,41 @@ function formatStatus(status: MachineStatus): string {
   return status.charAt(0).toUpperCase() + status.slice(1);
 }
 
+function machineAccessories(machine: Machine): List.Item.Accessory[] {
+  const accessories: List.Item.Accessory[] = [
+    {
+      tag: {
+        value: formatStatus(machine.status),
+        color: statusTint(machine.status),
+      },
+    },
+  ];
+  if (machine.region) {
+    accessories.push({ text: machine.region });
+  }
+  return accessories;
+}
+
 export default function Command() {
   const {
+    searchBarAccessory,
     isLoading,
     data: machines,
     error,
     revalidate,
-  } = usePromise(async () => {
-    const list = await boxdClient.listMachines();
-    return [...list].sort((a, b) => a.name.localeCompare(b.name));
-  }, []);
+  } = useRegionScopedPromise(async (selectedRegion) => {
+    const list = await boxdClient.listMachines(regionListParam(selectedRegion));
+    return list.toSorted((a, b) => a.name.localeCompare(b.name));
+  });
 
   const missingKey = error?.message === "missing-api-key";
 
   return (
-    <List isLoading={isLoading} searchBarPlaceholder="Search machines…">
+    <List
+      isLoading={isLoading}
+      searchBarPlaceholder="Search machines…"
+      searchBarAccessory={searchBarAccessory}
+    >
       {error && (
         <List.EmptyView
           title={missingKey ? "API key required" : "Could not load machines"}
@@ -88,15 +108,7 @@ export default function Command() {
               source: Icon.HardDrive,
               tintColor: statusTint(machine.status),
             }}
-            accessories={[
-              {
-                tag: {
-                  value: formatStatus(machine.status),
-                  color: statusTint(machine.status),
-                },
-              },
-              ...(machine.region ? [{ text: machine.region }] : []),
-            ]}
+            accessories={machineAccessories(machine)}
             actions={
               <ActionPanel>
                 {machine.access.url ? (

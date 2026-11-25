@@ -1,6 +1,6 @@
 import { getPreferenceValues } from "@raycast/api";
 import { Boxd } from "@boxd-sh/sdk";
-import type { Machine, MachineListParams } from "@boxd-sh/sdk";
+import type { Machine, MachineListParams, Region } from "@boxd-sh/sdk";
 
 function requireApiKey(): string {
   const key = getPreferenceValues<Preferences>().apiKey?.trim();
@@ -18,8 +18,12 @@ export class BoxdClient {
     return this.client;
   }
 
+  async listRegions(params?: { org?: string }): Promise<Region[]> {
+    return this.client.regions.list(params);
+  }
+
   async listMachines(params?: MachineListParams): Promise<Machine[]> {
-    return this.client.machines.list({ region: "all", ...params });
+    return this.client.machines.list(params);
   }
 
   async close(): Promise<void> {

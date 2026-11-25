@@ -6,9 +6,9 @@ Built with [@boxd-sh/sdk](https://docs.boxd.sh/reference/typescript-sdk) — no 
 
 ## Commands
 
-| Command           | Description                                                                                                            |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| **List Machines** | Searchable list of your machines (all regions). Status tags, region label, open in browser, copy URL or name, refresh. |
+| Command           | Description                                                                                                                                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **List Machines** | Searchable list of your machines. Region dropdown (All + API regions) beside search; choice is remembered across commands. Status tags, region label, open in browser, copy URL or name, refresh. |
 
 ## Requirements
 
