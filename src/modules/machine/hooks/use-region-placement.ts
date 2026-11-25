@@ -34,9 +34,9 @@ export function useRegionPlacement(): RegionPlacementResult {
   return {
     sortedRegions,
     placementContext,
-    isLoading: regionsLoading || orgDefaultLoading,
-    error: regionsError ?? orgDefaultError,
-    reload() {
+    isRegionPlacementLoading: regionsLoading || orgDefaultLoading,
+    regionPlacementError: regionsError ?? orgDefaultError,
+    reloadRegionPlacement() {
       reloadRegions();
       reloadOrgDefault();
     },

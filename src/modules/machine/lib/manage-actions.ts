@@ -57,7 +57,7 @@ const MANAGE_ACTION_SHORTCUT: Readonly<
   Record<MachineManageAction, Keyboard.Shortcut>
 > = {
   pause: manageShortcut("p"),
-  resume: manageShortcut("e"),
+  resume: manageShortcut("r"),
   hibernate: manageShortcut("h"),
   wake: manageShortcut("w"),
   stop: manageShortcut("x"),
@@ -75,8 +75,6 @@ export function machineManageActionShortcut(
 ): Keyboard.Shortcut {
   return MANAGE_ACTION_SHORTCUT[action];
 }
-
-export const DELETE_MACHINE_SHORTCUT = MANAGE_ACTION_SHORTCUT.delete;
 
 const FOR_STATUS_RUNNING: readonly MachineManageAction[] = [
   "pause",

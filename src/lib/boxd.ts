@@ -1,1 +1,1 @@
-export { BoxdClient, boxdClient } from "@/lib/boxd-client";
+export { boxdClient } from "@/lib/boxd-client";

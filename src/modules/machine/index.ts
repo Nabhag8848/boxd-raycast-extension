@@ -7,9 +7,9 @@ export {
 } from "@/modules/machine/components";
 export { useRegionPlacement } from "@/modules/machine/hooks";
 export {
-  confirmDeleteMachine,
-  DELETE_MACHINE_SHORTCUT,
-} from "@/modules/machine/actions";
+  machineListAccessories,
+  machineStatusTint,
+} from "@/modules/machine/lib/machine-list";
 export {
   toMachineCreateParams,
   type CreateMachineFormInput,
@@ -23,7 +23,6 @@ export {
   DEFAULT_SPEC_FORM_VALUE,
   isOrgDefaultMachineSize,
   MACHINE_SIZE_OPTIONS,
-  machineSizeToConfig,
   ORG_DEFAULT_MACHINE_SIZE,
   ORG_DEFAULT_SPEC_OPTION,
   type MachineSizeOption,

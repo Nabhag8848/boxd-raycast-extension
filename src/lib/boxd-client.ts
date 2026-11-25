@@ -20,11 +20,6 @@ function requireApiKey(): string {
 export class BoxdClient {
   constructor(private readonly client: Boxd) {}
 
-  /** Underlying SDK when a command needs an API not wrapped here yet. */
-  get sdk(): Boxd {
-    return this.client;
-  }
-
   async listRegions(params?: { org?: string }): Promise<Region[]> {
     return this.client.regions.list(params);
   }

@@ -19,8 +19,13 @@ import {
 } from "@/modules/shared";
 
 export default function Command() {
-  const { sortedRegions, placementContext, isLoading, error, reload } =
-    useRegionPlacement();
+  const {
+    sortedRegions,
+    placementContext,
+    isRegionPlacementLoading,
+    regionPlacementError,
+    reloadRegionPlacement,
+  } = useRegionPlacement();
 
   const { handleSubmit, itemProps } = useForm<CreateMachineFormInput>({
     async onSubmit(values) {
@@ -70,19 +75,19 @@ export default function Command() {
   });
 
   const regionsCatalogLoad = {
-    error,
-    loading: isLoading,
+    error: regionPlacementError,
+    loading: isRegionPlacementLoading,
     isEmpty: false,
   };
   const regionsCatalogReady = isFormAsyncLoadReady(regionsCatalogLoad);
 
   return (
     <Form
-      isLoading={isLoading}
+      isLoading={isRegionPlacementLoading}
       actions={
         <FormLoadErrorActions
-          error={error}
-          onRetry={reload}
+          error={regionPlacementError}
+          onRetry={reloadRegionPlacement}
           retryTitle="Reload Regions"
           submit={
             regionsCatalogReady ? (

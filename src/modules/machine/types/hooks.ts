@@ -4,7 +4,7 @@ import type { RegionPlacementContext } from "@/modules/machine/lib/regions";
 export type RegionPlacementResult = Readonly<{
   sortedRegions: readonly Region[];
   placementContext: RegionPlacementContext;
-  isLoading: boolean;
-  error: Error | undefined;
-  reload: () => void;
+  isRegionPlacementLoading: boolean;
+  regionPlacementError: Error | undefined;
+  reloadRegionPlacement: () => void;
 }>;
