@@ -46,12 +46,15 @@ Or create one in the [boxd console](https://boxd.sh).
 
 ## Project layout
 
-| Path                     | Role                   |
-| ------------------------ | ---------------------- |
-| `src/list-machines.tsx`  | List Machines command  |
-| `src/create-machine.tsx` | Create Machine command |
-| `src/lib/boxd-client.ts` | SDK wrapper            |
-| `package.json`           | Raycast manifest       |
+| Path                         | Role                                                                   |
+| ---------------------------- | ---------------------------------------------------------------------- |
+| `src/list-machines.tsx`      | List Machines command                                                  |
+| `src/create-machine.tsx`     | Create Machine command                                                 |
+| `src/lib/boxd/`              | SDK client                                                             |
+| `src/modules/machine/`       | List UI, create form, actions (`lib/list`, `lib/create`, `lib/manage`) |
+| `src/modules/region/`        | Region filter hooks and dropdown                                       |
+| `src/modules/shared/errors/` | Shared form/list load errors and actions                               |
+| `package.json`               | Raycast manifest                                                       |
 
 ## Development
 

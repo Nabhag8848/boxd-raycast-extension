@@ -10,7 +10,7 @@ import type {
   FormLoadErrorActionsProps,
   FormLoadErrorDescriptionsProps,
 } from "@/modules/shared/errors/types";
-import { NoRegionsFormDescription } from "@/modules/shared/region-catalog";
+import { NoRegionsFormDescription } from "@/modules/shared/errors/form/no-regions-form-description";
 
 export function FormLoadErrorDescriptions({
   error,

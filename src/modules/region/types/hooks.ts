@@ -28,4 +28,13 @@ export type RegionFilterResult = RegionSelection &
 
 export type RegionQuery<T> = (region: SelectedRegion) => Promise<T>;
 
-export type RegionScopedPromiseResult<T> = RegionFilterResult & AsyncSlice<T>;
+/** Data from a region-scoped query (refetches when {@link RegionSelection.region} changes). */
+export type RegionScopedQueryFields<T> = Readonly<{
+  regionScopedData: T | undefined;
+  regionScopedError: Error | undefined;
+  isRegionScopedLoading: boolean;
+  reloadRegionScopedData: () => void;
+}>;
+
+export type RegionScopedPromiseResult<T> = RegionFilterResult &
+  RegionScopedQueryFields<T>;

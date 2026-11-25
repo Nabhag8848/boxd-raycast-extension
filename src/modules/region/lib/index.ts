@@ -6,9 +6,4 @@ export type {
   AllRegionsToken,
   SelectedRegion,
 } from "@/modules/region/types/region";
-export {
-  compareRegionsByName,
-  isAllRegions,
-  regionCallParam,
-  regionListParam,
-} from "@/modules/region/lib/params";
+export { compareRegionsByName } from "@/modules/region/lib/params";

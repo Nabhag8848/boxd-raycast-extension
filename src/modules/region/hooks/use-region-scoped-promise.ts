@@ -22,7 +22,12 @@ export function useRegionScopedPromise<T>(
     reloadRegions,
   } = filter;
 
-  const { data, error, isLoading, revalidate } = usePromise(query, [region]);
+  const {
+    data: regionScopedData,
+    error: regionScopedError,
+    isLoading: isRegionScopedLoading,
+    revalidate: reloadRegionScopedData,
+  } = usePromise(query, [region]);
 
   return {
     region,
@@ -32,9 +37,9 @@ export function useRegionScopedPromise<T>(
     regionsLoading,
     regionsError,
     reloadRegions,
-    data,
-    error,
-    isLoading,
-    revalidate,
+    regionScopedData,
+    regionScopedError,
+    isRegionScopedLoading,
+    reloadRegionScopedData,
   };
 }

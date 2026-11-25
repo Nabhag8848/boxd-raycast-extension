@@ -6,6 +6,7 @@ export { ALL_REGIONS } from "@/modules/region/types/region";
 export type {
   RegionCatalogFields,
   RegionFilterResult,
+  RegionScopedQueryFields,
   RegionQuery,
   RegionScopedPromiseResult,
   RegionSelection,

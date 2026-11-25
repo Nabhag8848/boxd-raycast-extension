@@ -38,24 +38,3 @@ export const MACHINE_SIZE_OPTIONS: readonly MachineSizeOption[] = [
   { value: "4x16", title: "4 vCPU · 16 GB RAM" },
   { value: "8x32", title: "8 vCPU · 32 GB RAM" },
 ] as const;
-
-export function machineSizeToConfig(
-  size: MachineSize,
-): Readonly<{ vcpu: number; memory: string }> {
-  switch (size) {
-    case "1x4":
-      return { vcpu: 1, memory: "4G" };
-    case "2x8":
-      return { vcpu: 2, memory: "8G" };
-    case "4x16":
-      return { vcpu: 4, memory: "16G" };
-    case "8x32":
-      return { vcpu: 8, memory: "32G" };
-    default: {
-      const [vcpuPart, memoryGib] = size.split("x");
-      const vcpu = Number(vcpuPart);
-      const memory = `${memoryGib}G`;
-      return { vcpu, memory };
-    }
-  }
-}
