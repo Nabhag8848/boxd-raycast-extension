@@ -1,4 +1,4 @@
-import { Action, Form } from "@raycast/api";
+import { Action, Form, useNavigation } from "@raycast/api";
 import { useForm } from "@raycast/utils";
 import { createMachineWithFeedback } from "@/modules/machine/actions";
 import {
@@ -20,7 +20,18 @@ import {
   isAsyncLoadReady,
 } from "@/modules/shared";
 
-export default function Command() {
+type CreateMachineCommandProps = Readonly<{
+  handleCreate?: () => void;
+}>;
+
+export default function Command({ handleCreate }: CreateMachineCommandProps) {
+  const { pop } = useNavigation();
+  const handleCreateSuccess = handleCreate
+    ? () => {
+        pop();
+        handleCreate();
+      }
+    : undefined;
   const {
     sortedRegions,
     placementContext,
@@ -31,7 +42,11 @@ export default function Command() {
 
   const { handleSubmit, itemProps } = useForm<CreateMachineFormInput>({
     async onSubmit(values) {
-      await createMachineWithFeedback(values, placementContext);
+      await createMachineWithFeedback({
+        values,
+        placementContext,
+        handleCreate: handleCreateSuccess,
+      });
     },
     initialValues: {
       name: undefined,

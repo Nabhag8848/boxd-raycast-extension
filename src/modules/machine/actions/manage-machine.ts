@@ -11,26 +11,26 @@ import { manageMachine } from "@/modules/machine/lib/manage/machine";
 import { getErrorMessage } from "@/modules/shared/errors";
 
 type ManageMachineWithFeedbackOptions = Readonly<{
-  onComplete?: () => void;
+  handleComplete?: () => void;
 }>;
 
-function runOnComplete(
+function runHandleComplete(
   action: MachineManageAction,
-  onComplete?: () => void,
+  handleComplete?: () => void,
 ): void {
-  if (!onComplete) {
+  if (!handleComplete) {
     return;
   }
-  onComplete();
+  handleComplete();
   if (action === "start") {
-    setTimeout(onComplete, START_MACHINE_STATUS_REFRESH_DELAY_MS);
+    setTimeout(handleComplete, START_MACHINE_STATUS_REFRESH_DELAY_MS);
   }
 }
 
 export async function manageMachineWithFeedback(
   machine: Machine,
   action: MachineManageAction,
-  { onComplete }: ManageMachineWithFeedbackOptions = {},
+  { handleComplete }: ManageMachineWithFeedbackOptions = {},
 ): Promise<void> {
   const label = machineManageActionLabel(action);
   const toast = await showToast({
@@ -47,7 +47,7 @@ export async function manageMachineWithFeedback(
       title: label,
       message: machine.name,
     });
-    runOnComplete(action, onComplete);
+    runHandleComplete(action, handleComplete);
   } catch (error) {
     await toast.hide();
     const message = getErrorMessage(error);

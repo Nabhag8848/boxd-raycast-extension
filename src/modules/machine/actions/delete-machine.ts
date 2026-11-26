@@ -12,12 +12,12 @@ import { manageMachine } from "@/modules/machine/lib/manage/machine";
 import { getErrorMessage } from "@/modules/shared/errors";
 
 type ConfirmDeleteMachineOptions = Readonly<{
-  onDeleted?: () => void;
+  handleDelete?: () => void;
 }>;
 
 export async function confirmDeleteMachine(
   machine: Machine,
-  { onDeleted }: ConfirmDeleteMachineOptions = {},
+  { handleDelete }: ConfirmDeleteMachineOptions = {},
 ): Promise<void> {
   const confirmed = await confirmAlert({
     title: deleteMachineConfirmationTitle(machine.name),
@@ -45,7 +45,7 @@ export async function confirmDeleteMachine(
       title: DELETE_MACHINE_SUCCESS_TITLE,
       message: machine.name,
     });
-    onDeleted?.();
+    handleDelete?.();
   } catch (error) {
     await toast.hide();
     const message = getErrorMessage(error);

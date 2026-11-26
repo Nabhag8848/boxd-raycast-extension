@@ -10,14 +10,16 @@ import type { ReactElement } from "react";
 
 type MachineListItemProps = Readonly<{
   machine: Machine;
-  onRefresh: () => void;
-  onDeleted: () => void;
+  handleRefresh: () => void;
+  handleDelete: () => void;
+  handleCreate: () => void;
 }>;
 
 export function MachineListItem({
   machine,
-  onRefresh,
-  onDeleted,
+  handleRefresh,
+  handleDelete,
+  handleCreate,
 }: MachineListItemProps): ReactElement {
   return (
     <List.Item
@@ -32,8 +34,9 @@ export function MachineListItem({
       actions={
         <MachineListActions
           machine={machine}
-          onRefresh={onRefresh}
-          onDeleted={onDeleted}
+          handleRefresh={handleRefresh}
+          handleDelete={handleDelete}
+          handleCreate={handleCreate}
         />
       }
     />

@@ -11,5 +11,6 @@ export const MACHINE_LIST_CREATE_ACTION_TITLE = "Create Machine";
 export const MACHINE_LIST_OPEN_IN_BROWSER_ACTION_TITLE = "Open in Browser";
 export const MACHINE_LIST_COPY_URL_ACTION_TITLE = "Copy URL";
 export const MACHINE_LIST_COPY_NAME_ACTION_TITLE = "Copy Name";
+export const MACHINE_LIST_COMMANDS_SECTION_TITLE = "Commands";
 export const MACHINE_LIST_MANAGE_SECTION_TITLE = "Manage Machine";
 export const MACHINE_LIST_REFRESH_ACTION_TITLE = "Refresh";

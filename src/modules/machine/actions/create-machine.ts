@@ -1,4 +1,4 @@
-import { popToRoot, showToast, Toast } from "@raycast/api";
+import { LaunchType, launchCommand, showToast, Toast } from "@raycast/api";
 import type { Machine } from "@boxd-sh/sdk";
 import { withBoxdClient } from "@/lib/boxd";
 import {
@@ -11,10 +11,17 @@ import {
 } from "@/modules/machine/lib/create";
 import { getErrorMessage } from "@/modules/shared/errors";
 
-export async function createMachineWithFeedback(
-  values: CreateMachineFormInput,
-  placementContext: RegionPlacementContext,
-): Promise<Machine> {
+type CreateMachineWithFeedbackArgs = Readonly<{
+  values: CreateMachineFormInput;
+  placementContext: RegionPlacementContext;
+  handleCreate?: () => void;
+}>;
+
+export async function createMachineWithFeedback({
+  values,
+  placementContext,
+  handleCreate,
+}: CreateMachineWithFeedbackArgs): Promise<Machine> {
   const toast = await showToast({
     style: Toast.Style.Animated,
     title: MACHINE_CREATE_PROGRESS_TITLE,
@@ -41,7 +48,14 @@ export async function createMachineWithFeedback(
       title: MACHINE_CREATE_SUCCESS_TITLE,
       message: machine.name,
     });
-    await popToRoot();
+    if (handleCreate) {
+      handleCreate();
+      return machine;
+    }
+    await launchCommand({
+      name: "list-machines",
+      type: LaunchType.UserInitiated,
+    });
     return machine;
   } catch (error) {
     await toast.hide();

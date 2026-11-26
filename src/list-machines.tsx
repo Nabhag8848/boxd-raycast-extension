@@ -36,12 +36,16 @@ export default function Command() {
           <MachineListItem
             key={machine.id}
             machine={machine}
-            onRefresh={reloadMachineList}
-            onDeleted={reloadMachineList}
+            handleRefresh={reloadMachineList}
+            handleDelete={reloadMachineList}
+            handleCreate={reloadMachineList}
           />
         ))}
       {!machineListError && !isMachineListLoading && machines?.length === 0 ? (
-        <MachineListEmptyView region={region} />
+        <MachineListEmptyView
+          region={region}
+          handleCreate={reloadMachineList}
+        />
       ) : null}
     </List>
   );
