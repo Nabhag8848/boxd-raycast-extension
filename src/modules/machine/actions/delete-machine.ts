@@ -1,6 +1,15 @@
 import { Alert, confirmAlert, showToast, Toast } from "@raycast/api";
 import type { Machine } from "@boxd-sh/sdk";
+import {
+  DELETE_MACHINE_CONFIRMATION_ACTION_TITLE,
+  DELETE_MACHINE_CONFIRMATION_MESSAGE,
+  DELETE_MACHINE_FAILURE_TITLE,
+  DELETE_MACHINE_PROGRESS_TITLE,
+  DELETE_MACHINE_SUCCESS_TITLE,
+  deleteMachineConfirmationTitle,
+} from "@/modules/machine/lib/manage/constants";
 import { manageMachine } from "@/modules/machine/lib/manage/machine";
+import { getErrorMessage } from "@/modules/shared/errors";
 
 type ConfirmDeleteMachineOptions = Readonly<{
   onDeleted?: () => void;
@@ -11,10 +20,10 @@ export async function confirmDeleteMachine(
   { onDeleted }: ConfirmDeleteMachineOptions = {},
 ): Promise<void> {
   const confirmed = await confirmAlert({
-    title: `Delete “${machine.name}”?`,
-    message: "This permanently destroys the machine and its disk.",
+    title: deleteMachineConfirmationTitle(machine.name),
+    message: DELETE_MACHINE_CONFIRMATION_MESSAGE,
     primaryAction: {
-      title: "Delete",
+      title: DELETE_MACHINE_CONFIRMATION_ACTION_TITLE,
       style: Alert.ActionStyle.Destructive,
     },
   });
@@ -25,7 +34,7 @@ export async function confirmDeleteMachine(
 
   const toast = await showToast({
     style: Toast.Style.Animated,
-    title: "Deleting machine…",
+    title: DELETE_MACHINE_PROGRESS_TITLE,
   });
 
   try {
@@ -33,16 +42,16 @@ export async function confirmDeleteMachine(
     await toast.hide();
     await showToast({
       style: Toast.Style.Success,
-      title: "Machine deleted",
+      title: DELETE_MACHINE_SUCCESS_TITLE,
       message: machine.name,
     });
     onDeleted?.();
   } catch (error) {
     await toast.hide();
-    const message = error instanceof Error ? error.message : "Request failed";
+    const message = getErrorMessage(error);
     await showToast({
       style: Toast.Style.Failure,
-      title: "Could not delete machine",
+      title: DELETE_MACHINE_FAILURE_TITLE,
       message,
     });
   }

@@ -1,3 +1,9 @@
 export * from "@/modules/shared/ui";
 export * from "@/modules/shared/errors";
-export type { AsyncSlice, BindableProps } from "@/modules/shared/types";
+export * from "@/modules/shared/lib";
+export {
+  isAsyncLoadReady,
+  type AsyncLoadState,
+  type AsyncSlice,
+  type BindableProps,
+} from "@/modules/shared/types";

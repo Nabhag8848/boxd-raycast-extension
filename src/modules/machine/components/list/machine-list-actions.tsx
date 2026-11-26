@@ -10,6 +10,17 @@ import {
   machineManageActionsForStatus,
   machineManageActionShortcut,
 } from "@/modules/machine/lib/manage/actions";
+import {
+  MACHINE_LIST_COPY_NAME_ACTION_TITLE,
+  MACHINE_LIST_COPY_URL_ACTION_TITLE,
+  MACHINE_LIST_MANAGE_SECTION_TITLE,
+  MACHINE_LIST_OPEN_IN_BROWSER_ACTION_TITLE,
+  MACHINE_LIST_REFRESH_ACTION_TITLE,
+} from "@/modules/machine/lib/list/constants";
+import {
+  MACHINE_LIST_COPY_NAME_SHORTCUT,
+  MACHINE_LIST_REFRESH_SHORTCUT,
+} from "@/modules/machine/lib/list/shortcuts";
 import type { ReactElement } from "react";
 
 type MachineListActionsProps = Readonly<{
@@ -31,16 +42,23 @@ export function MachineListActions({
     <ActionPanel>
       {machine.access.url ? (
         <Action.OpenInBrowser
-          title="Open in Browser"
+          title={MACHINE_LIST_OPEN_IN_BROWSER_ACTION_TITLE}
           url={machine.access.url}
         />
       ) : null}
       {machine.access.url ? (
-        <Action.CopyToClipboard title="Copy URL" content={machine.access.url} />
+        <Action.CopyToClipboard
+          title={MACHINE_LIST_COPY_URL_ACTION_TITLE}
+          content={machine.access.url}
+        />
       ) : null}
-      <Action.CopyToClipboard title="Copy Name" content={machine.name} />
+      <Action.CopyToClipboard
+        title={MACHINE_LIST_COPY_NAME_ACTION_TITLE}
+        content={machine.name}
+        shortcut={MACHINE_LIST_COPY_NAME_SHORTCUT}
+      />
       {showManageSection ? (
-        <ActionPanel.Section title="Manage Machine">
+        <ActionPanel.Section title={MACHINE_LIST_MANAGE_SECTION_TITLE}>
           {manageActions.map((action) => (
             <Action
               key={action}
@@ -65,7 +83,12 @@ export function MachineListActions({
           ) : null}
         </ActionPanel.Section>
       ) : null}
-      <Action title="Refresh" icon={Icon.ArrowClockwise} onAction={onRefresh} />
+      <Action
+        title={MACHINE_LIST_REFRESH_ACTION_TITLE}
+        icon={Icon.ArrowClockwise}
+        shortcut={MACHINE_LIST_REFRESH_SHORTCUT}
+        onAction={onRefresh}
+      />
     </ActionPanel>
   );
 }

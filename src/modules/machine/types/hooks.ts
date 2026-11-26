@@ -10,10 +10,10 @@ export type MachineListResult = RegionFilterResult &
     reloadMachineList: () => void;
   }>;
 
-export type RegionPlacementResult = Readonly<{
+export type MachineCreateRegionPlacementResult = Readonly<{
   sortedRegions: readonly Region[];
   placementContext: RegionPlacementContext;
-  isRegionPlacementLoading: boolean;
-  regionPlacementError: Error | undefined;
-  reloadRegionPlacement: () => void;
+  isMachineCreateRegionPlacementLoading: boolean;
+  machineCreateRegionPlacementError: Error | undefined;
+  reloadMachineCreateRegionPlacement: () => void;
 }>;

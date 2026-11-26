@@ -1,5 +1,10 @@
 import type { Region } from "@boxd-sh/sdk";
 import type { ReactElement } from "react";
+import {
+  MACHINE_REGION_FIELD_INFO,
+  MACHINE_REGION_FIELD_PLACEHOLDER,
+  MACHINE_REGION_FIELD_TITLE,
+} from "@/modules/machine/lib/create/constants";
 import { ORG_DEFAULT_REGION_OPTION } from "@/modules/machine/lib/create/regions";
 import { FormDropdownField } from "@/modules/shared";
 import type { MachineRegionFormFieldProps } from "@/modules/machine/types";
@@ -13,9 +18,9 @@ export function MachineRegionFormField({
   return (
     <FormDropdownField
       {...props}
-      title="Region"
-      placeholder="Search region…"
-      info="Org default follows your org setting in the boxd console."
+      title={MACHINE_REGION_FIELD_TITLE}
+      placeholder={MACHINE_REGION_FIELD_PLACEHOLDER}
+      info={MACHINE_REGION_FIELD_INFO}
     >
       <FormDropdownField.Item
         value={ORG_DEFAULT_REGION_OPTION.value}

@@ -1,8 +1,9 @@
 import type { Machine, MachineStatus } from "@boxd-sh/sdk";
 import { Color, List } from "@raycast/api";
+import { capitalizeFirstCharacter } from "@/modules/shared/lib";
 
 export function formatMachineStatus(status: MachineStatus): string {
-  return status.charAt(0).toUpperCase() + status.slice(1);
+  return capitalizeFirstCharacter(status);
 }
 
 export function machineStatusTint(status: MachineStatus): Color {

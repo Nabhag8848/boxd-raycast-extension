@@ -1,16 +1,41 @@
-import { Icon, List } from "@raycast/api";
+import { Action, ActionPanel, Icon, List } from "@raycast/api";
+import CreateMachine from "@/create-machine";
 import {
-  MACHINE_LIST_EMPTY_DESCRIPTION,
+  MACHINE_LIST_CREATE_ACTION_TITLE,
+  MACHINE_LIST_EMPTY_ALL_REGIONS_DESCRIPTION,
+  MACHINE_LIST_EMPTY_REGION_DESCRIPTION,
   MACHINE_LIST_EMPTY_TITLE,
-} from "@/modules/machine/lib/list/query";
+} from "@/modules/machine/lib/list/constants";
+import { ALL_REGIONS, type SelectedRegion } from "@/modules/region/types";
 import type { ReactElement } from "react";
 
-export function MachineListEmptyView(): ReactElement {
+type MachineListEmptyViewProps = Readonly<{
+  region: SelectedRegion;
+}>;
+
+export function MachineListEmptyView({
+  region,
+}: MachineListEmptyViewProps): ReactElement {
+  const showingAllRegions = region === ALL_REGIONS;
+
   return (
     <List.EmptyView
       title={MACHINE_LIST_EMPTY_TITLE}
-      description={MACHINE_LIST_EMPTY_DESCRIPTION}
+      description={
+        showingAllRegions
+          ? MACHINE_LIST_EMPTY_ALL_REGIONS_DESCRIPTION
+          : MACHINE_LIST_EMPTY_REGION_DESCRIPTION
+      }
       icon={Icon.HardDrive}
+      actions={
+        <ActionPanel>
+          <Action.Push
+            title={MACHINE_LIST_CREATE_ACTION_TITLE}
+            icon={Icon.Plus}
+            target={<CreateMachine />}
+          />
+        </ActionPanel>
+      }
     />
   );
 }
