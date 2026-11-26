@@ -1,6 +1,10 @@
 import { List } from "@raycast/api";
 import type { ReactElement } from "react";
 import { useMemo } from "react";
+import {
+  ALL_REGIONS_DROPDOWN_ITEM_TITLE,
+  REGION_DROPDOWN_TOOLTIP,
+} from "@/modules/region/lib/constants";
 import { sortRegionsByName } from "@/modules/region/lib/params";
 import { ALL_REGIONS, type RegionDropdownProps } from "@/modules/region/types";
 
@@ -10,7 +14,7 @@ export function RegionDropdown({
   onChange,
   regions,
   isLoading = false,
-  tooltip = "Region",
+  tooltip = REGION_DROPDOWN_TOOLTIP,
 }: RegionDropdownProps): ReactElement<List.Dropdown.Props> {
   const sortedRegions = useMemo(
     () => (regions ? sortRegionsByName(regions) : undefined),
@@ -24,7 +28,10 @@ export function RegionDropdown({
       onChange={onChange}
       isLoading={isLoading}
     >
-      <List.Dropdown.Item title="All Region" value={ALL_REGIONS} />
+      <List.Dropdown.Item
+        title={ALL_REGIONS_DROPDOWN_ITEM_TITLE}
+        value={ALL_REGIONS}
+      />
       {sortedRegions?.map((region) => (
         <List.Dropdown.Item
           key={region.id}

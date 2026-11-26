@@ -2,10 +2,14 @@ import { popToRoot, showToast, Toast } from "@raycast/api";
 import type { Machine } from "@boxd-sh/sdk";
 import { withBoxdClient } from "@/lib/boxd";
 import {
+  MACHINE_CREATE_FAILURE_TITLE,
+  MACHINE_CREATE_PROGRESS_TITLE,
+  MACHINE_CREATE_SUCCESS_TITLE,
   toMachineCreateParams,
   type CreateMachineFormInput,
   type RegionPlacementContext,
 } from "@/modules/machine/lib/create";
+import { getErrorMessage } from "@/modules/shared/errors";
 
 export async function createMachineWithFeedback(
   values: CreateMachineFormInput,
@@ -13,7 +17,7 @@ export async function createMachineWithFeedback(
 ): Promise<Machine> {
   const toast = await showToast({
     style: Toast.Style.Animated,
-    title: "Creating machine…",
+    title: MACHINE_CREATE_PROGRESS_TITLE,
   });
 
   try {
@@ -34,17 +38,17 @@ export async function createMachineWithFeedback(
     await toast.hide();
     await showToast({
       style: Toast.Style.Success,
-      title: "Machine created",
+      title: MACHINE_CREATE_SUCCESS_TITLE,
       message: machine.name,
     });
     await popToRoot();
     return machine;
   } catch (error) {
     await toast.hide();
-    const message = error instanceof Error ? error.message : "Request failed";
+    const message = getErrorMessage(error);
     await showToast({
       style: Toast.Style.Failure,
-      title: "Could not create machine",
+      title: MACHINE_CREATE_FAILURE_TITLE,
       message,
     });
     throw new Error(message);

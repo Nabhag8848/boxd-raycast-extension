@@ -1,9 +1,7 @@
 import type { Machine } from "@boxd-sh/sdk";
 import { withBoxdClient } from "@/lib/boxd";
 import type { MachineManageAction } from "@/modules/machine/lib/manage/actions";
-
-/** Grace period before tearing down the SDK channel after a manage call. */
-const MANAGE_MACHINE_CLOSE_AFTER_MS = 2000;
+import { MANAGE_MACHINE_CLIENT_CLOSE_GRACE_PERIOD_MS } from "@/modules/machine/lib/manage/constants";
 
 export async function manageMachine(
   machine: Machine,
@@ -41,6 +39,6 @@ export async function manageMachine(
           return;
       }
     },
-    { closeAfterMs: MANAGE_MACHINE_CLOSE_AFTER_MS },
+    { closeAfterMs: MANAGE_MACHINE_CLIENT_CLOSE_GRACE_PERIOD_MS },
   );
 }

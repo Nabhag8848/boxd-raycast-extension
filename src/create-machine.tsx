@@ -4,6 +4,7 @@ import { createMachineWithFeedback } from "@/modules/machine/actions";
 import {
   CREATE_MACHINE_REGIONS_LOAD_ERROR_TITLE,
   CREATE_MACHINE_RELOAD_REGIONS_TITLE,
+  CREATE_MACHINE_SUBMIT_ACTION_TITLE,
   DEFAULT_REGION_FORM_VALUE,
   DEFAULT_SPEC_FORM_VALUE,
   IsolatedFormField,
@@ -11,22 +12,22 @@ import {
   MachineRegionFormField,
   SpecSizeFormField,
   type CreateMachineFormInput,
-  useRegionPlacement,
+  useMachineCreateRegionPlacement,
 } from "@/modules/machine";
 import {
-  FormLoadErrorActions,
-  FormLoadErrorDescriptions,
-  isFormAsyncLoadReady,
+  FormAsyncLoadActions,
+  FormAsyncLoadDescriptions,
+  isAsyncLoadReady,
 } from "@/modules/shared";
 
 export default function Command() {
   const {
     sortedRegions,
     placementContext,
-    isRegionPlacementLoading,
-    regionPlacementError,
-    reloadRegionPlacement,
-  } = useRegionPlacement();
+    isMachineCreateRegionPlacementLoading,
+    machineCreateRegionPlacementError,
+    reloadMachineCreateRegionPlacement,
+  } = useMachineCreateRegionPlacement();
 
   const { handleSubmit, itemProps } = useForm<CreateMachineFormInput>({
     async onSubmit(values) {
@@ -41,24 +42,24 @@ export default function Command() {
   });
 
   const regionsCatalogLoad = {
-    error: regionPlacementError,
-    loading: isRegionPlacementLoading,
+    error: machineCreateRegionPlacementError,
+    loading: isMachineCreateRegionPlacementLoading,
     isEmpty: false,
   };
-  const regionsCatalogReady = isFormAsyncLoadReady(regionsCatalogLoad);
+  const regionsCatalogReady = isAsyncLoadReady(regionsCatalogLoad);
 
   return (
     <Form
-      isLoading={isRegionPlacementLoading}
+      isLoading={isMachineCreateRegionPlacementLoading}
       actions={
-        <FormLoadErrorActions
-          error={regionPlacementError}
-          onRetry={reloadRegionPlacement}
+        <FormAsyncLoadActions
+          error={machineCreateRegionPlacementError}
+          onRetry={reloadMachineCreateRegionPlacement}
           retryTitle={CREATE_MACHINE_RELOAD_REGIONS_TITLE}
           submit={
             regionsCatalogReady ? (
               <Action.SubmitForm
-                title="Create Machine"
+                title={CREATE_MACHINE_SUBMIT_ACTION_TITLE}
                 onSubmit={handleSubmit}
               />
             ) : null
@@ -66,7 +67,7 @@ export default function Command() {
         />
       }
     >
-      <FormLoadErrorDescriptions
+      <FormAsyncLoadDescriptions
         {...regionsCatalogLoad}
         loadErrorTitle={CREATE_MACHINE_REGIONS_LOAD_ERROR_TITLE}
         showNoRegionsEmpty={false}

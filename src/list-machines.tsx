@@ -10,6 +10,7 @@ import { ListLoadErrorEmptyView } from "@/modules/shared";
 
 export default function Command() {
   const {
+    region,
     searchBarAccessory,
     machines,
     machineListError,
@@ -40,7 +41,7 @@ export default function Command() {
           />
         ))}
       {!machineListError && !isMachineListLoading && machines?.length === 0 ? (
-        <MachineListEmptyView />
+        <MachineListEmptyView region={region} />
       ) : null}
     </List>
   );

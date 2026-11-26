@@ -2,12 +2,13 @@ import { showToast, Toast } from "@raycast/api";
 import type { Machine } from "@boxd-sh/sdk";
 import {
   machineManageActionLabel,
+  machineManageFailureTitle,
+  machineManageProgressTitle,
   type MachineManageAction,
 } from "@/modules/machine/lib/manage/actions";
+import { START_MACHINE_STATUS_REFRESH_DELAY_MS } from "@/modules/machine/lib/manage/constants";
 import { manageMachine } from "@/modules/machine/lib/manage/machine";
-
-/** Extra list refresh after start — status often lags before `running`. */
-const START_MACHINE_FOLLOW_UP_REFRESH_MS = 2000;
+import { getErrorMessage } from "@/modules/shared/errors";
 
 type ManageMachineWithFeedbackOptions = Readonly<{
   onComplete?: () => void;
@@ -22,7 +23,7 @@ function runOnComplete(
   }
   onComplete();
   if (action === "start") {
-    setTimeout(onComplete, START_MACHINE_FOLLOW_UP_REFRESH_MS);
+    setTimeout(onComplete, START_MACHINE_STATUS_REFRESH_DELAY_MS);
   }
 }
 
@@ -34,7 +35,7 @@ export async function manageMachineWithFeedback(
   const label = machineManageActionLabel(action);
   const toast = await showToast({
     style: Toast.Style.Animated,
-    title: `${label}…`,
+    title: machineManageProgressTitle(label),
     message: machine.name,
   });
 
@@ -49,10 +50,10 @@ export async function manageMachineWithFeedback(
     runOnComplete(action, onComplete);
   } catch (error) {
     await toast.hide();
-    const message = error instanceof Error ? error.message : "Request failed";
+    const message = getErrorMessage(error);
     await showToast({
       style: Toast.Style.Failure,
-      title: `Could not ${action}`,
+      title: machineManageFailureTitle(action),
       message,
     });
   }

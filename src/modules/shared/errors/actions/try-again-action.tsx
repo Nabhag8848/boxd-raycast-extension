@@ -1,8 +1,9 @@
 import { Action, Icon } from "@raycast/api";
+import { TRY_AGAIN_ACTION_TITLE } from "@/modules/shared/errors/constants";
 import type { TryAgainActionProps } from "@/modules/shared/errors/types";
 
 export function TryAgainAction({
-  title = "Try Again",
+  title = TRY_AGAIN_ACTION_TITLE,
   onAction,
 }: TryAgainActionProps) {
   return (

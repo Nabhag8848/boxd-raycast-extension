@@ -1,6 +1,6 @@
 export type {
+  MachineCreateRegionPlacementResult,
   MachineListResult,
-  RegionPlacementResult,
 } from "@/modules/machine/types/hooks";
 export type {
   IsolatedFormFieldProps,

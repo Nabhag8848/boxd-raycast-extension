@@ -1,6 +1,10 @@
 import type { MachineStatus } from "@boxd-sh/sdk";
 import { Icon, Keyboard } from "@raycast/api";
 import type { Image } from "@raycast/api";
+import {
+  capitalizeFirstCharacter,
+  platformShortcut,
+} from "@/modules/shared/lib";
 
 /** SDK `Machines` methods used from the list (`start`, `stop`, `delete`, …). */
 export type MachineManageAction =
@@ -14,11 +18,19 @@ export type MachineManageAction =
   | "delete";
 
 function formatManageActionLabel(action: MachineManageAction): string {
-  return action.charAt(0).toUpperCase() + action.slice(1);
+  return capitalizeFirstCharacter(action);
 }
 
 export function machineManageActionLabel(action: MachineManageAction): string {
   return formatManageActionLabel(action);
+}
+
+export function machineManageProgressTitle(label: string): string {
+  return `${label}…`;
+}
+
+export function machineManageFailureTitle(action: MachineManageAction): string {
+  return `Could not ${action}`;
 }
 
 const MANAGE_ACTION_ICON: Readonly<
@@ -40,33 +52,17 @@ export function machineManageActionIcon(
   return MANAGE_ACTION_ICON[action];
 }
 
-function manageShortcut(
-  key: Keyboard.KeyEquivalent,
-  modifiers: Keyboard.KeyModifier[] = ["cmd", "shift"],
-): Keyboard.Shortcut {
-  return {
-    macOS: { modifiers, key },
-    Windows: {
-      modifiers: modifiers.map((m) => (m === "cmd" ? "ctrl" : m)),
-      key,
-    },
-  };
-}
-
 const MANAGE_ACTION_SHORTCUT: Readonly<
   Record<MachineManageAction, Keyboard.Shortcut>
 > = {
-  pause: manageShortcut("p"),
-  resume: manageShortcut("r"),
-  hibernate: manageShortcut("h"),
-  wake: manageShortcut("w"),
-  stop: manageShortcut("x"),
-  start: manageShortcut("s"),
-  reboot: manageShortcut("r"),
-  delete: {
-    macOS: { modifiers: ["cmd"], key: "d" },
-    Windows: { modifiers: ["ctrl"], key: "d" },
-  },
+  pause: platformShortcut("p", ["cmd", "shift"]),
+  resume: platformShortcut("r", ["cmd", "shift"]),
+  hibernate: platformShortcut("h", ["cmd", "shift"]),
+  wake: platformShortcut("w", ["cmd", "shift"]),
+  stop: platformShortcut("x", ["cmd", "shift"]),
+  start: platformShortcut("s", ["cmd", "shift"]),
+  reboot: platformShortcut("r", ["cmd", "shift"]),
+  delete: platformShortcut("d"),
 };
 
 /** List action panel shortcuts for {@link MachineManageAction}. */

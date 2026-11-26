@@ -7,10 +7,14 @@ export {
   MachineRegionFormField,
   SpecSizeFormField,
 } from "@/modules/machine/components";
-export { useMachineList, useRegionPlacement } from "@/modules/machine/hooks";
+export {
+  useMachineCreateRegionPlacement,
+  useMachineList,
+} from "@/modules/machine/hooks";
 export {
   CREATE_MACHINE_REGIONS_LOAD_ERROR_TITLE,
   CREATE_MACHINE_RELOAD_REGIONS_TITLE,
+  CREATE_MACHINE_SUBMIT_ACTION_TITLE,
   DEFAULT_REGION_FORM_VALUE,
   DEFAULT_SPEC_FORM_VALUE,
   toMachineCreateParams,
@@ -20,7 +24,8 @@ export {
 } from "@/modules/machine/lib/create";
 export {
   fetchSortedMachines,
-  MACHINE_LIST_EMPTY_DESCRIPTION,
+  MACHINE_LIST_EMPTY_ALL_REGIONS_DESCRIPTION,
+  MACHINE_LIST_EMPTY_REGION_DESCRIPTION,
   MACHINE_LIST_EMPTY_TITLE,
   MACHINE_LIST_LOAD_ERROR_TITLE,
   MACHINE_LIST_SEARCH_PLACEHOLDER,
@@ -35,6 +40,6 @@ export type {
   MachineNameFormFieldProps,
   MachineRegionFormFieldProps,
   MachineListResult,
-  RegionPlacementResult,
+  MachineCreateRegionPlacementResult,
   SpecSizeFormFieldProps,
 } from "@/modules/machine/types";
