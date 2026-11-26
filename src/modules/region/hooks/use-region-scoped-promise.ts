@@ -27,7 +27,9 @@ export function useRegionScopedPromise<T>(
     error: regionScopedError,
     isLoading: isRegionScopedLoading,
     revalidate: reloadRegionScopedData,
-  } = usePromise(query, [region]);
+  } = usePromise(query, [region], {
+    execute: region !== undefined,
+  });
 
   return {
     region,
