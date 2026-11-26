@@ -2,7 +2,7 @@ import { usePromise } from "@raycast/utils";
 import { useMemo } from "react";
 import { boxdClient } from "@/lib/boxd";
 import type { RegionPlacementResult } from "@/modules/machine/types/hooks";
-import { compareRegionsByName, useRegionsCatalog } from "@/modules/region";
+import { sortRegionsByName, useRegionsCatalog } from "@/modules/region";
 
 /** Regions list + org default region for create-machine placement. */
 export function useRegionPlacement(): RegionPlacementResult {
@@ -20,7 +20,7 @@ export function useRegionPlacement(): RegionPlacementResult {
     if (!regions) {
       return [];
     }
-    return regions.toSorted(compareRegionsByName);
+    return sortRegionsByName(regions);
   }, [regions]);
 
   const placementContext = useMemo(

@@ -1,14 +1,8 @@
 import { List } from "@raycast/api";
 import type { ReactElement } from "react";
 import { useMemo } from "react";
-import { compareRegionsByName } from "@/modules/region/lib/params";
+import { sortRegionsByName } from "@/modules/region/lib/params";
 import { ALL_REGIONS, type RegionDropdownProps } from "@/modules/region/types";
-
-function sortRegions(
-  regions: RegionDropdownProps["regions"],
-): RegionDropdownProps["regions"] {
-  return regions ? regions.toSorted(compareRegionsByName) : undefined;
-}
 
 /** Region picker for `List` `searchBarAccessory`. */
 export function RegionDropdown({
@@ -18,7 +12,10 @@ export function RegionDropdown({
   isLoading = false,
   tooltip = "Region",
 }: RegionDropdownProps): ReactElement<List.Dropdown.Props> {
-  const sortedRegions = useMemo(() => sortRegions(regions), [regions]);
+  const sortedRegions = useMemo(
+    () => (regions ? sortRegionsByName(regions) : undefined),
+    [regions],
+  );
 
   return (
     <List.Dropdown
