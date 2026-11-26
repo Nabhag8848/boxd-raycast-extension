@@ -1,6 +1,6 @@
 import { usePromise } from "@raycast/utils";
 import { useMemo } from "react";
-import { boxdClient } from "@/lib/boxd";
+import { withBoxdClient } from "@/lib/boxd";
 import type { MachineCreateRegionPlacementResult } from "@/modules/machine/types/hooks";
 import { sortRegionsByName, useRegionsCatalog } from "@/modules/region";
 
@@ -14,7 +14,10 @@ export function useMachineCreateRegionPlacement(): MachineCreateRegionPlacementR
     isLoading: orgDefaultRegionLoading,
     error: orgDefaultRegionError,
     revalidate: reloadOrgDefaultRegion,
-  } = usePromise(() => boxdClient.getOrgDefaultRegion(), []);
+  } = usePromise(
+    () => withBoxdClient((client) => client.getOrgDefaultRegion()),
+    [],
+  );
 
   const sortedRegions = useMemo(
     () => (regions ? sortRegionsByName(regions) : []),

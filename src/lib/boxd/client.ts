@@ -82,9 +82,3 @@ export class BoxdClient {
 export function createBoxdClient(): BoxdClient {
   return new BoxdClient(new Boxd({ apiKey: requireApiKey() }));
 }
-
-/**
- * Shared client for command views — region changes and revalidates keep using it.
- * Prefer {@link withBoxdClient} from `@/lib/boxd/with-client` for one-shot calls.
- */
-export const boxdClient = createBoxdClient();
