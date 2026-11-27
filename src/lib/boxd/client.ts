@@ -8,6 +8,7 @@ import type {
   Region,
   RegionOption,
 } from "@boxd-sh/sdk";
+import { boxdApiBaseUrl } from "@/lib/boxd/config";
 
 function requireApiKey(): string {
   const key = getPreferenceValues<Preferences>().apiKey?.trim();
@@ -80,7 +81,9 @@ export class BoxdClient {
 }
 
 function createBoxdClient(): BoxdClient {
-  return new BoxdClient(new Boxd({ apiKey: requireApiKey() }));
+  return new BoxdClient(
+    new Boxd({ apiKey: requireApiKey(), baseURL: boxdApiBaseUrl() }),
+  );
 }
 
 /** Shared SDK client for the lifetime of the extension host. */

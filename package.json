@@ -21,6 +21,15 @@
       "title": "API Key",
       "description": "Your boxd API key.",
       "placeholder": "bxd_..."
+    },
+    {
+      "name": "apiBaseUrl",
+      "type": "textfield",
+      "required": false,
+      "default": "https://boxd.sh:9443",
+      "title": "API Base URL",
+      "description": "The base URL for the boxd API.",
+      "placeholder": "https://boxd.sh:9443"
     }
   ],
   "commands": [
