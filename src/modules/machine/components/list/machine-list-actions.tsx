@@ -28,7 +28,6 @@ import {
   MACHINE_LIST_COPY_NAME_SHORTCUT,
   MACHINE_LIST_COPY_URL_SHORTCUT,
   MACHINE_LIST_CREATE_SHORTCUT,
-  MACHINE_LIST_OPEN_CONSOLE_SHORTCUT,
   MACHINE_LIST_OPEN_DESKTOP_SHORTCUT,
   MACHINE_LIST_OPEN_TERMINAL_SHORTCUT,
   MACHINE_LIST_REFRESH_SHORTCUT,
@@ -57,6 +56,10 @@ export function MachineListActions({
   return (
     <ActionPanel>
       <ActionPanel.Section title={MACHINE_LIST_ACCESS_SECTION_TITLE}>
+        <Action.OpenInBrowser
+          title={MACHINE_LIST_OPEN_CONSOLE_ACTION_TITLE}
+          url={boxdConsoleMachineUrl(machine)}
+        />
         {machine.access.desktopUrl ? (
           <Action.OpenInBrowser
             title={MACHINE_LIST_OPEN_DESKTOP_ACTION_TITLE}
@@ -64,11 +67,6 @@ export function MachineListActions({
             shortcut={MACHINE_LIST_OPEN_DESKTOP_SHORTCUT}
           />
         ) : null}
-        <Action.OpenInBrowser
-          title={MACHINE_LIST_OPEN_CONSOLE_ACTION_TITLE}
-          url={boxdConsoleMachineUrl(machine)}
-          shortcut={MACHINE_LIST_OPEN_CONSOLE_SHORTCUT}
-        />
         {canOpenTerminal(machine.status) && (
           <Action
             title={MACHINE_LIST_OPEN_TERMINAL_ACTION_TITLE}
