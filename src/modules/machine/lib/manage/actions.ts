@@ -62,7 +62,7 @@ const MANAGE_ACTION_SHORTCUT: Readonly<
   stop: platformShortcut("x", ["cmd", "shift"]),
   start: platformShortcut("s", ["cmd", "shift"]),
   reboot: platformShortcut("r", ["cmd", "shift"]),
-  delete: platformShortcut("d"),
+  delete: platformShortcut("d", ["cmd", "shift"]),
 };
 
 /** List action panel shortcuts for {@link MachineManageAction}. */

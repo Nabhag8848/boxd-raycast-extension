@@ -1,85 +1,140 @@
 # boxd for Raycast
 
-Manage [boxd](https://boxd.sh) machines from Raycast.
+Manage boxd machines from Raycast. Browse machines by region, create a machine, control its lifecycle, open its desktop or console, and connect from your local terminal.
 
-Built with [@boxd-sh/sdk](https://docs.boxd.sh/reference/typescript-sdk) — no local `boxd` CLI required for the extension itself.
+Machine management uses the [boxd TypeScript SDK](https://docs.boxd.sh/reference/typescript-sdk). **Open in Terminal** uses your local `boxd` CLI.
 
-## Commands
+## What you can do
 
-| Command            | Description                |
-| ------------------ | -------------------------- |
-| **List Machines**  | Browse your boxd machines. |
-| **Create Machine** | Create a boxd machine.     |
+### Browse machines
 
-## Requirements
+Use **List Machines** to search the machines you can access. Each result shows its status and region. Select a region from the search-bar dropdown to narrow the list, or select all regions.
 
-- [Raycast](https://raycast.com) on macOS or Windows
-- A boxd API key (`bxd_…`)
+The action panel has three sections.
 
-## Install & run
+| Section  | Action           | Availability                               | Shortcut               |
+| -------- | ---------------- | ------------------------------------------ | ---------------------- |
+| Access   | Open Desktop     | When boxd provides a desktop URL           | `⌘D` / `Ctrl+D`        |
+| Access   | Open in Console  | Always                                     | `⌘C` / `Ctrl+C`        |
+| Access   | Open in Terminal | Running, suspended, or hibernated machines | `⌘T` / `Ctrl+T`        |
+| Access   | Copy URL         | When the machine has a public URL          | `⌘U` / `Ctrl+U`        |
+| Access   | Copy Name        | Always                                     | `⌘N` / `Ctrl+N`        |
+| Commands | Create Machine   | Always                                     | `⌘⇧N` / `Ctrl+Shift+N` |
+| Commands | Refresh          | Always                                     | `⌘R` / `Ctrl+R`        |
 
-```bash
+**Open Desktop** opens the machine desktop in your browser. **Open in Console** opens the machine page in the boxd console. **Copy URL** copies the machine's public HTTPS URL.
+
+### Connect from your terminal
+
+**Open in Terminal** starts a native terminal and runs:
+
+```sh
+boxd machine connect --region <region> <machine-id>
+```
+
+The action passes the region when boxd reports one. A suspended or hibernated machine resumes or wakes when the connection opens. A stopped machine must be started first.
+
+Before you use this action, install the [boxd CLI](https://boxd.sh) and authenticate it:
+
+```sh
+boxd auth login
+```
+
+On macOS, the action opens Terminal. On Windows, it opens Windows Terminal when available and falls back to PowerShell. The terminal shows any Boxd CLI installation or authentication error.
+
+### Control a machine
+
+**List Machines** exposes lifecycle actions that match the current machine status.
+
+| Status                          | Available actions              |
+| ------------------------------- | ------------------------------ |
+| Running                         | Pause, Hibernate, Stop, Reboot |
+| Suspended                       | Resume, Stop                   |
+| Hibernated                      | Wake                           |
+| Stopped or failed               | Start                          |
+| Pending, starting, or migrating | Stop                           |
+
+You can delete every machine except one that is already destroyed. Delete uses `⌘⇧D` on macOS and `Ctrl+Shift+D` on Windows.
+
+### Create a machine
+
+Use **Create Machine** to choose:
+
+- An optional name. boxd generates one when you leave it blank.
+- A region, or the organization default.
+- Linux or Windows.
+- The organization default size, or a vCPU and memory size.
+- Whether the machine is isolated.
+
+## Setup
+
+You need:
+
+- [Raycast](https://raycast.com) on macOS or Windows.
+- A boxd API key that starts with `bxd_`.
+- The boxd CLI if you want to use **Open in Terminal**.
+
+Set the API key in Raycast:
+
+1. Open **Raycast Settings**.
+2. Open **Extensions**, then **boxd**.
+3. Set **API Key**.
+
+Create a key from the boxd CLI:
+
+```sh
+boxd auth keys create raycast
+```
+
+You can also create a key in the [boxd console](https://app.boxd.sh).
+
+## Preferences
+
+| Preference   | Required | Default                | Purpose                                                                                          |
+| ------------ | -------- | ---------------------- | ------------------------------------------------------------------------------------------------ |
+| API Key      | Yes      | —                      | Authenticates SDK requests to boxd.                                                              |
+| API Base URL | No       | `https://boxd.sh:9443` | Sets the SDK API endpoint. The console URL derives the `app.` subdomain and omits the gRPC port. |
+
+For the default endpoint, the console action opens URLs in this form:
+
+```text
+https://app.boxd.sh/machines?m=<machine-name>&r=<region>
+```
+
+## Install for development
+
+```sh
 git clone https://github.com/Nabhag8848/boxd-ext.git
 cd boxd-ext
 npm install
 npm run dev
 ```
 
-Raycast loads the extension in development mode. Import this folder as an extension in Raycast if you are not using `ray develop`.
+Raycast loads the extension in development mode. Run the checks before you publish a change:
 
-### API key
-
-1. Raycast → **Settings** → **Extensions** → **boxd** → **API Key**
-2. Create a key:
-
-```bash
-boxd auth keys create raycast
-```
-
-Or create one in the [boxd console](https://boxd.sh).
-
-## Preferences
-
-| Name    | Type     | Required | Description        |
-| ------- | -------- | -------- | ------------------ |
-| API Key | password | yes      | Your boxd API key. |
-
-## Project layout
-
-| Path                         | Role                                                                   |
-| ---------------------------- | ---------------------------------------------------------------------- |
-| `src/list-machines.tsx`      | List Machines command                                                  |
-| `src/create-machine.tsx`     | Create Machine command                                                 |
-| `src/lib/boxd/`              | SDK client                                                             |
-| `src/modules/machine/`       | List UI, create form, actions (`lib/list`, `lib/create`, `lib/manage`) |
-| `src/modules/region/`        | Region filter hooks and dropdown                                       |
-| `src/modules/shared/errors/` | Shared form/list load errors and actions                               |
-| `package.json`               | Raycast manifest                                                       |
-
-## Development
-
-```bash
+```sh
 npm run lint
-npm run fix-lint   # auto-fix formatting
-npm run build      # production bundle
+npm run build
 ```
-
-Optional: copy `.env.example` to `.env` and set `BOXD_API_KEY` for local scripts outside Raycast (`.env` is gitignored).
 
 ## Publish to the Raycast Store
 
-```bash
+```sh
 npm run publish
 ```
 
-See [Raycast publishing](https://developers.raycast.com/basics/publish-an-extension).
+See the [Raycast publishing guide](https://developers.raycast.com/basics/publish-an-extension) for submission requirements.
+
+## Project layout
+
+| Path                     | Purpose                                                                          |
+| ------------------------ | -------------------------------------------------------------------------------- |
+| `src/list-machines.tsx`  | Machine list command                                                             |
+| `src/create-machine.tsx` | Machine creation command                                                         |
+| `src/lib/boxd/`          | SDK client and API or console URL configuration                                  |
+| `src/modules/machine/`   | Machine actions, list UI, creation form, lifecycle logic, and terminal launchers |
+| `src/modules/region/`    | Region discovery and list filtering                                              |
 
 ## License
 
-MIT — see `package.json`.
-
-## Links
-
-- [boxd](https://boxd.sh)
-- [Raycast extension docs](https://developers.raycast.com)
-- [boxd TypeScript SDK](https://docs.boxd.sh/reference/typescript-sdk)
+MIT. See [package.json](package.json).

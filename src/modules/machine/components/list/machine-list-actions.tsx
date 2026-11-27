@@ -4,6 +4,7 @@ import CreateMachine from "@/create-machine";
 import {
   confirmDeleteMachine,
   manageMachineWithFeedback,
+  openMachineInTerminal,
 } from "@/modules/machine/actions";
 import {
   machineManageActionIcon,
@@ -14,17 +15,26 @@ import {
 import {
   MACHINE_LIST_COPY_NAME_ACTION_TITLE,
   MACHINE_LIST_COPY_URL_ACTION_TITLE,
+  MACHINE_LIST_ACCESS_SECTION_TITLE,
   MACHINE_LIST_COMMANDS_SECTION_TITLE,
   MACHINE_LIST_CREATE_ACTION_TITLE,
   MACHINE_LIST_MANAGE_SECTION_TITLE,
-  MACHINE_LIST_OPEN_IN_BROWSER_ACTION_TITLE,
+  MACHINE_LIST_OPEN_CONSOLE_ACTION_TITLE,
+  MACHINE_LIST_OPEN_DESKTOP_ACTION_TITLE,
+  MACHINE_LIST_OPEN_TERMINAL_ACTION_TITLE,
   MACHINE_LIST_REFRESH_ACTION_TITLE,
 } from "@/modules/machine/lib/list/constants";
 import {
   MACHINE_LIST_COPY_NAME_SHORTCUT,
+  MACHINE_LIST_COPY_URL_SHORTCUT,
   MACHINE_LIST_CREATE_SHORTCUT,
+  MACHINE_LIST_OPEN_CONSOLE_SHORTCUT,
+  MACHINE_LIST_OPEN_DESKTOP_SHORTCUT,
+  MACHINE_LIST_OPEN_TERMINAL_SHORTCUT,
   MACHINE_LIST_REFRESH_SHORTCUT,
 } from "@/modules/machine/lib/list/shortcuts";
+import { boxdConsoleMachineUrl } from "@/modules/machine/lib/list/urls";
+import { canOpenTerminal } from "@/modules/machine/lib/terminal";
 import type { ReactElement } from "react";
 
 type MachineListActionsProps = Readonly<{
@@ -46,23 +56,40 @@ export function MachineListActions({
 
   return (
     <ActionPanel>
-      {machine.access.url ? (
+      <ActionPanel.Section title={MACHINE_LIST_ACCESS_SECTION_TITLE}>
+        {machine.access.desktopUrl ? (
+          <Action.OpenInBrowser
+            title={MACHINE_LIST_OPEN_DESKTOP_ACTION_TITLE}
+            url={machine.access.desktopUrl}
+            shortcut={MACHINE_LIST_OPEN_DESKTOP_SHORTCUT}
+          />
+        ) : null}
         <Action.OpenInBrowser
-          title={MACHINE_LIST_OPEN_IN_BROWSER_ACTION_TITLE}
-          url={machine.access.url}
+          title={MACHINE_LIST_OPEN_CONSOLE_ACTION_TITLE}
+          url={boxdConsoleMachineUrl(machine)}
+          shortcut={MACHINE_LIST_OPEN_CONSOLE_SHORTCUT}
         />
-      ) : null}
-      {machine.access.url ? (
+        {canOpenTerminal(machine.status) && (
+          <Action
+            title={MACHINE_LIST_OPEN_TERMINAL_ACTION_TITLE}
+            icon={Icon.Terminal}
+            shortcut={MACHINE_LIST_OPEN_TERMINAL_SHORTCUT}
+            onAction={() => openMachineInTerminal(machine)}
+          />
+        )}
+        {machine.access.url ? (
+          <Action.CopyToClipboard
+            title={MACHINE_LIST_COPY_URL_ACTION_TITLE}
+            content={machine.access.url}
+            shortcut={MACHINE_LIST_COPY_URL_SHORTCUT}
+          />
+        ) : null}
         <Action.CopyToClipboard
-          title={MACHINE_LIST_COPY_URL_ACTION_TITLE}
-          content={machine.access.url}
+          title={MACHINE_LIST_COPY_NAME_ACTION_TITLE}
+          content={machine.name}
+          shortcut={MACHINE_LIST_COPY_NAME_SHORTCUT}
         />
-      ) : null}
-      <Action.CopyToClipboard
-        title={MACHINE_LIST_COPY_NAME_ACTION_TITLE}
-        content={machine.name}
-        shortcut={MACHINE_LIST_COPY_NAME_SHORTCUT}
-      />
+      </ActionPanel.Section>
       {showManageSection ? (
         <ActionPanel.Section title={MACHINE_LIST_MANAGE_SECTION_TITLE}>
           {manageActions.map((action) => (
@@ -98,13 +125,13 @@ export function MachineListActions({
           shortcut={MACHINE_LIST_CREATE_SHORTCUT}
           target={<CreateMachine handleMachineCreate={handleMachineCreate} />}
         />
+        <Action
+          title={MACHINE_LIST_REFRESH_ACTION_TITLE}
+          icon={Icon.ArrowClockwise}
+          shortcut={MACHINE_LIST_REFRESH_SHORTCUT}
+          onAction={handleMachineListRefresh}
+        />
       </ActionPanel.Section>
-      <Action
-        title={MACHINE_LIST_REFRESH_ACTION_TITLE}
-        icon={Icon.ArrowClockwise}
-        shortcut={MACHINE_LIST_REFRESH_SHORTCUT}
-        onAction={handleMachineListRefresh}
-      />
     </ActionPanel>
   );
 }

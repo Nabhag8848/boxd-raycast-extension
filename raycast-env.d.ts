@@ -9,7 +9,9 @@
 
 type ExtensionPreferences = {
   /** API Key - Your boxd API key. */
-  "apiKey": string
+  "apiKey": string,
+  /** API Base URL - The base URL for the boxd API. */
+  "apiBaseUrl": string
 }
 
 /** Preferences accessible in all the extension's commands */
