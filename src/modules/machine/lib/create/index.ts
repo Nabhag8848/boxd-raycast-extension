@@ -11,6 +11,11 @@ export {
   type CreateMachineFormInput,
 } from "@/modules/machine/lib/create/params";
 export {
+  DEFAULT_MACHINE_OS,
+  MACHINE_OS_OPTIONS,
+  type MachineOsOption,
+} from "@/modules/machine/lib/create/os";
+export {
   DEFAULT_REGION_FORM_VALUE,
   ORG_DEFAULT_REGION_OPTION,
   type RegionFormValue,

@@ -14,6 +14,9 @@ export const MACHINE_REGION_FIELD_PLACEHOLDER = "Search region…";
 export const MACHINE_REGION_FIELD_INFO =
   "Org default follows your org setting in the boxd console.";
 
+export const MACHINE_OS_FIELD_TITLE = "OS";
+export const MACHINE_OS_FIELD_INFO = "Linux is the default guest OS.";
+
 export const MACHINE_ISOLATED_FIELD_LABEL = "Isolated";
 export const MACHINE_ISOLATED_FIELD_INFO =
   "Only reachable on networks you assign.";

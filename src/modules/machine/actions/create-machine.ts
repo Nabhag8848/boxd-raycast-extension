@@ -32,6 +32,7 @@ export async function createMachineWithFeedback({
           name: values.name,
           region: values.region,
           size: values.size,
+          os: values.os,
           isolated: values.isolated,
         },
         placementContext,

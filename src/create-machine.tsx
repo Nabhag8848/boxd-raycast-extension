@@ -11,10 +11,12 @@ import {
   CREATE_MACHINE_REGIONS_LOAD_ERROR_TITLE,
   CREATE_MACHINE_RELOAD_REGIONS_TITLE,
   CREATE_MACHINE_SUBMIT_ACTION_TITLE,
+  DEFAULT_MACHINE_OS,
   DEFAULT_REGION_FORM_VALUE,
   DEFAULT_SPEC_FORM_VALUE,
   IsolatedFormField,
   MachineNameFormField,
+  MachineOsFormField,
   MachineRegionFormField,
   SpecSizeFormField,
   type CreateMachineFormInput,
@@ -69,6 +71,7 @@ export default function Command({
       name: undefined,
       region: DEFAULT_REGION_FORM_VALUE,
       size: DEFAULT_SPEC_FORM_VALUE,
+      os: DEFAULT_MACHINE_OS,
       isolated: false,
     },
   });
@@ -112,6 +115,7 @@ export default function Command({
             regions={sortedRegions}
             {...itemProps.region}
           />
+          <MachineOsFormField {...itemProps.os} />
           <SpecSizeFormField {...itemProps.size} />
           <IsolatedFormField {...itemProps.isolated} />
         </>
