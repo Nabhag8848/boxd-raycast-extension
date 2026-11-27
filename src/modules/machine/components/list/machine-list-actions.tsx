@@ -29,16 +29,16 @@ import type { ReactElement } from "react";
 
 type MachineListActionsProps = Readonly<{
   machine: Machine;
-  handleRefresh: () => void;
-  handleDelete: () => void;
-  handleCreate: () => void;
+  handleMachineListRefresh: () => void;
+  handleMachineDelete: () => void;
+  handleMachineCreate: () => void;
 }>;
 
 export function MachineListActions({
   machine,
-  handleRefresh,
-  handleDelete,
-  handleCreate,
+  handleMachineListRefresh,
+  handleMachineDelete,
+  handleMachineCreate,
 }: MachineListActionsProps): ReactElement {
   const manageActions = machineManageActionsForStatus(machine.status);
   const canDelete = machine.status !== "destroyed";
@@ -73,7 +73,7 @@ export function MachineListActions({
               shortcut={machineManageActionShortcut(action)}
               onAction={() =>
                 manageMachineWithFeedback(machine, action, {
-                  handleComplete: handleRefresh,
+                  handleMachineActionComplete: handleMachineListRefresh,
                 })
               }
             />
@@ -84,7 +84,9 @@ export function MachineListActions({
               icon={machineManageActionIcon("delete")}
               shortcut={machineManageActionShortcut("delete")}
               style={Action.Style.Destructive}
-              onAction={() => confirmDeleteMachine(machine, { handleDelete })}
+              onAction={() =>
+                confirmDeleteMachine(machine, { handleMachineDelete })
+              }
             />
           ) : null}
         </ActionPanel.Section>
@@ -94,14 +96,14 @@ export function MachineListActions({
           title={MACHINE_LIST_CREATE_ACTION_TITLE}
           icon={Icon.Plus}
           shortcut={MACHINE_LIST_CREATE_SHORTCUT}
-          target={<CreateMachine handleCreate={handleCreate} />}
+          target={<CreateMachine handleMachineCreate={handleMachineCreate} />}
         />
       </ActionPanel.Section>
       <Action
         title={MACHINE_LIST_REFRESH_ACTION_TITLE}
         icon={Icon.ArrowClockwise}
         shortcut={MACHINE_LIST_REFRESH_SHORTCUT}
-        onAction={handleRefresh}
+        onAction={handleMachineListRefresh}
       />
     </ActionPanel>
   );

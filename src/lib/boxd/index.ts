@@ -1,2 +1,1 @@
-export { BoxdClient, createBoxdClient } from "./client";
-export { withBoxdClient } from "./with-client";
+export { boxdClient, BoxdClient } from "./client";

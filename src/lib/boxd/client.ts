@@ -79,6 +79,9 @@ export class BoxdClient {
   }
 }
 
-export function createBoxdClient(): BoxdClient {
+function createBoxdClient(): BoxdClient {
   return new BoxdClient(new Boxd({ apiKey: requireApiKey() }));
 }
+
+/** Shared SDK client for the lifetime of the extension host. */
+export const boxdClient = createBoxdClient();

@@ -1,6 +1,6 @@
-import { LaunchType, launchCommand, showToast, Toast } from "@raycast/api";
+import { showToast, Toast } from "@raycast/api";
 import type { Machine } from "@boxd-sh/sdk";
-import { withBoxdClient } from "@/lib/boxd";
+import { boxdClient } from "@/lib/boxd";
 import {
   MACHINE_CREATE_FAILURE_TITLE,
   MACHINE_CREATE_PROGRESS_TITLE,
@@ -14,13 +14,11 @@ import { getErrorMessage } from "@/modules/shared/errors";
 type CreateMachineWithFeedbackArgs = Readonly<{
   values: CreateMachineFormInput;
   placementContext: RegionPlacementContext;
-  handleCreate?: () => void;
 }>;
 
 export async function createMachineWithFeedback({
   values,
   placementContext,
-  handleCreate,
 }: CreateMachineWithFeedbackArgs): Promise<Machine> {
   const toast = await showToast({
     style: Toast.Style.Animated,
@@ -28,33 +26,22 @@ export async function createMachineWithFeedback({
   });
 
   try {
-    const machine = await withBoxdClient((client) =>
-      client.createMachine(
-        toMachineCreateParams(
-          {
-            name: values.name,
-            region: values.region,
-            size: values.size,
-            isolated: values.isolated,
-          },
-          placementContext,
-        ),
+    const machine = await boxdClient.createMachine(
+      toMachineCreateParams(
+        {
+          name: values.name,
+          region: values.region,
+          size: values.size,
+          isolated: values.isolated,
+        },
+        placementContext,
       ),
     );
-
     await toast.hide();
     await showToast({
       style: Toast.Style.Success,
       title: MACHINE_CREATE_SUCCESS_TITLE,
       message: machine.name,
-    });
-    if (handleCreate) {
-      handleCreate();
-      return machine;
-    }
-    await launchCommand({
-      name: "list-machines",
-      type: LaunchType.UserInitiated,
     });
     return machine;
   } catch (error) {
