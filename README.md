@@ -6,41 +6,77 @@ Machine management uses the [boxd TypeScript SDK](https://docs.boxd.sh/reference
 
 ## What you can do
 
+### Raycast commands
+
+Search for either command in Raycast to begin.
+
+| Command            | Description                                             |
+| ------------------ | ------------------------------------------------------- |
+| **List Machines**  | Browse, access, and manage the machines you can access. |
+| **Create Machine** | Open the form to create a new boxd machine.             |
+
 ### Browse machines
 
 Use **List Machines** to search the machines you can access. Each result shows its status and region. Select a region from the search-bar dropdown to narrow the list, or select all regions.
 
 The action panel has three sections.
 
-| Section  | Action           | Availability                               | Shortcut               |
-| -------- | ---------------- | ------------------------------------------ | ---------------------- |
-| Access   | Open Desktop     | When boxd provides a desktop URL           | `⌘D` / `Ctrl+D`        |
-| Access   | Open in Console  | Always                                     | `⌘C` / `Ctrl+C`        |
-| Access   | Open in Terminal | Running, suspended, or hibernated machines | `⌘T` / `Ctrl+T`        |
-| Access   | Copy URL         | When the machine has a public URL          | `⌘U` / `Ctrl+U`        |
-| Access   | Copy Name        | Always                                     | `⌘N` / `Ctrl+N`        |
-| Commands | Create Machine   | Always                                     | `⌘⇧N` / `Ctrl+Shift+N` |
-| Commands | Refresh          | Always                                     | `⌘R` / `Ctrl+R`        |
+#### Access actions
+
+| Action           | Availability                               | macOS shortcut | Windows shortcut |
+| ---------------- | ------------------------------------------ | -------------- | ---------------- |
+| Open Desktop     | When boxd provides a desktop URL           | `⌘D`           | `Ctrl+D`         |
+| Open in Console  | Always                                     | `⌘C`           | `Ctrl+C`         |
+| Open in Terminal | Running, suspended, or hibernated machines | `⌘T`           | `Ctrl+T`         |
+| Copy URL         | When the machine has a public URL          | `⌘U`           | `Ctrl+U`         |
+| Copy Name        | Always                                     | `⌘N`           | `Ctrl+N`         |
 
 **Open Desktop** opens the machine desktop in your browser. **Open in Console** opens the machine page in the boxd console. **Copy URL** copies the machine's public HTTPS URL.
 
+#### Commands
+
+| Command        | What it does                     | macOS shortcut | Windows shortcut |
+| -------------- | -------------------------------- | -------------- | ---------------- |
+| Create Machine | Opens the machine creation form  | `⌘⇧N`          | `Ctrl+Shift+N`   |
+| Refresh        | Reloads the current machine list | `⌘R`           | `Ctrl+R`         |
+
 ### Connect from your terminal
 
-**Open in Terminal** starts a native terminal and runs:
+**Open in Terminal** is available for running, suspended, and hibernated machines. It starts a native terminal and runs the boxd CLI command for the selected machine. The action passes the machine ID and, when available, its region:
 
 ```sh
 boxd machine connect --region <region> <machine-id>
 ```
 
-The action passes the region when boxd reports one. A suspended or hibernated machine resumes or wakes when the connection opens. A stopped machine must be started first.
+A suspended or hibernated machine resumes or wakes when the connection opens. Start a stopped machine before you connect.
 
-Before you use this action, install the [boxd CLI](https://boxd.sh) and authenticate it:
+Install the [boxd CLI](https://boxd.sh) and authenticate it before using the action:
 
 ```sh
 boxd auth login
 ```
 
-On macOS, the action opens Terminal. On Windows, it opens Windows Terminal when available and falls back to PowerShell. The terminal shows any Boxd CLI installation or authentication error.
+The CLI must be available as `boxd` on your system `PATH`. If it is not installed or you are not authenticated, the terminal displays the CLI error and stays open.
+
+#### macOS
+
+Press `⌘T` on a machine, or select **Open in Terminal** from its action panel. Raycast opens the macOS **Terminal** app and starts the connection there.
+
+To connect manually, open Terminal and run:
+
+```sh
+boxd machine connect --region <region> <machine-id>
+```
+
+#### Windows
+
+Press `Ctrl+T` on a machine, or select **Open in Terminal** from its action panel. Raycast opens a new **Windows Terminal** tab when Windows Terminal is installed. Otherwise, it opens **Windows PowerShell**.
+
+To connect manually, open Windows Terminal or PowerShell and run:
+
+```powershell
+boxd machine connect --region <region> <machine-id>
+```
 
 ### Control a machine
 
@@ -54,7 +90,18 @@ On macOS, the action opens Terminal. On Windows, it opens Windows Terminal when 
 | Stopped or failed               | Start                          |
 | Pending, starting, or migrating | Stop                           |
 
-You can delete every machine except one that is already destroyed. Delete uses `⌘⇧D` on macOS and `Ctrl+Shift+D` on Windows.
+| Action    | Availability                                        | macOS shortcut | Windows shortcut |
+| --------- | --------------------------------------------------- | -------------- | ---------------- |
+| Pause     | Running                                             | `⌘⇧P`          | `Ctrl+Shift+P`   |
+| Resume    | Suspended                                           | `⌘⇧R`          | `Ctrl+Shift+R`   |
+| Hibernate | Running                                             | `⌘⇧H`          | `Ctrl+Shift+H`   |
+| Wake      | Hibernated                                          | `⌘⇧W`          | `Ctrl+Shift+W`   |
+| Stop      | Running, suspended, pending, starting, or migrating | `⌘⇧X`          | `Ctrl+Shift+X`   |
+| Start     | Stopped or failed                                   | `⌘⇧S`          | `Ctrl+Shift+S`   |
+| Reboot    | Running                                             | `⌘⇧R`          | `Ctrl+Shift+R`   |
+| Delete    | Any machine except a destroyed machine              | `⌘⇧D`          | `Ctrl+Shift+D`   |
+
+Resume and Reboot share a shortcut because they are never available for the same machine status.
 
 ### Create a machine
 
