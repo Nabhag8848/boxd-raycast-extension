@@ -92,12 +92,12 @@ export default function Command({
           onRetry={reloadMachineCreateRegionPlacement}
           retryTitle={CREATE_MACHINE_RELOAD_REGIONS_TITLE}
           submit={
-            regionsCatalogReady ? (
+            regionsCatalogReady && (
               <Action.SubmitForm
                 title={CREATE_MACHINE_SUBMIT_ACTION_TITLE}
                 onSubmit={handleSubmit}
               />
-            ) : null
+            )
           }
         />
       }
@@ -108,7 +108,7 @@ export default function Command({
         showNoRegionsEmpty={false}
       />
 
-      {regionsCatalogReady ? (
+      {regionsCatalogReady && (
         <>
           <MachineNameFormField {...itemProps.name} />
           <MachineRegionFormField
@@ -119,7 +119,7 @@ export default function Command({
           <SpecSizeFormField {...itemProps.size} />
           <IsolatedFormField {...itemProps.isolated} />
         </>
-      ) : null}
+      )}
     </Form>
   );
 }

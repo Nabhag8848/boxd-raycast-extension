@@ -24,13 +24,13 @@ export default function Command() {
       searchBarPlaceholder={MACHINE_LIST_SEARCH_PLACEHOLDER}
       searchBarAccessory={searchBarAccessory}
     >
-      {machineListError ? (
+      {machineListError && (
         <ListLoadErrorEmptyView
           error={machineListError}
           loadErrorTitle={MACHINE_LIST_LOAD_ERROR_TITLE}
           onRetry={reloadMachineList}
         />
-      ) : null}
+      )}
       {!machineListError &&
         machines?.map((machine) => (
           <MachineListItem
@@ -41,12 +41,12 @@ export default function Command() {
             handleMachineCreate={reloadMachineList}
           />
         ))}
-      {!machineListError && !isMachineListLoading && machines?.length === 0 ? (
+      {!machineListError && !isMachineListLoading && machines?.length === 0 && (
         <MachineListEmptyView
           region={region}
           handleMachineCreate={reloadMachineList}
         />
-      ) : null}
+      )}
     </List>
   );
 }

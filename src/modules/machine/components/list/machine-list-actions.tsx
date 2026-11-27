@@ -60,13 +60,13 @@ export function MachineListActions({
           title={MACHINE_LIST_OPEN_CONSOLE_ACTION_TITLE}
           url={boxdConsoleMachineUrl(machine)}
         />
-        {machine.access.desktopUrl ? (
+        {machine.access.desktopUrl && (
           <Action.OpenInBrowser
             title={MACHINE_LIST_OPEN_DESKTOP_ACTION_TITLE}
             url={machine.access.desktopUrl}
             shortcut={MACHINE_LIST_OPEN_DESKTOP_SHORTCUT}
           />
-        ) : null}
+        )}
         {canOpenTerminal(machine.status) && (
           <Action
             title={MACHINE_LIST_OPEN_TERMINAL_ACTION_TITLE}
@@ -75,20 +75,20 @@ export function MachineListActions({
             onAction={() => openMachineInTerminal(machine)}
           />
         )}
-        {machine.access.url ? (
+        {machine.access.url && (
           <Action.CopyToClipboard
             title={MACHINE_LIST_COPY_URL_ACTION_TITLE}
             content={machine.access.url}
             shortcut={MACHINE_LIST_COPY_URL_SHORTCUT}
           />
-        ) : null}
+        )}
         <Action.CopyToClipboard
           title={MACHINE_LIST_COPY_NAME_ACTION_TITLE}
           content={machine.name}
           shortcut={MACHINE_LIST_COPY_NAME_SHORTCUT}
         />
       </ActionPanel.Section>
-      {showManageSection ? (
+      {showManageSection && (
         <ActionPanel.Section title={MACHINE_LIST_MANAGE_SECTION_TITLE}>
           {manageActions.map((action) => (
             <Action
@@ -103,7 +103,7 @@ export function MachineListActions({
               }
             />
           ))}
-          {canDelete ? (
+          {canDelete && (
             <Action
               title={machineManageActionLabel("delete")}
               icon={machineManageActionIcon("delete")}
@@ -113,9 +113,9 @@ export function MachineListActions({
                 confirmDeleteMachine(machine, { handleMachineDelete })
               }
             />
-          ) : null}
+          )}
         </ActionPanel.Section>
-      ) : null}
+      )}
       <ActionPanel.Section title={MACHINE_LIST_COMMANDS_SECTION_TITLE}>
         <Action.Push
           title={MACHINE_LIST_CREATE_ACTION_TITLE}

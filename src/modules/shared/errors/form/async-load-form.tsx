@@ -24,13 +24,13 @@ export function FormAsyncLoadDescriptions({
 
   return (
     <>
-      {missingKey ? <ApiKeyRequiredFormDescription /> : null}
-      {error && !missingKey ? (
+      {missingKey && <ApiKeyRequiredFormDescription />}
+      {error && !missingKey && (
         <FormLoadErrorDescription title={loadErrorTitle} error={error} />
-      ) : null}
-      {showNoRegionsEmpty && !loading && !error && isEmpty ? (
+      )}
+      {showNoRegionsEmpty && !loading && !error && isEmpty && (
         <NoRegionsFormDescription />
-      ) : null}
+      )}
     </>
   );
 }
@@ -45,10 +45,10 @@ export function FormAsyncLoadActions({
 
   return (
     <ActionPanel>
-      {missingKey ? <OpenPreferencesAction /> : null}
-      {error && !missingKey ? (
+      {missingKey && <OpenPreferencesAction />}
+      {error && !missingKey && (
         <TryAgainAction title={retryTitle} onAction={onRetry} />
-      ) : null}
+      )}
       {submit}
     </ActionPanel>
   );
