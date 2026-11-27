@@ -1,5 +1,6 @@
 import { Action, ActionPanel, Icon } from "@raycast/api";
 import type { Machine } from "@boxd-sh/sdk";
+import CreateMachine from "@/create-machine";
 import {
   confirmDeleteMachine,
   manageMachineWithFeedback,
@@ -13,26 +14,31 @@ import {
 import {
   MACHINE_LIST_COPY_NAME_ACTION_TITLE,
   MACHINE_LIST_COPY_URL_ACTION_TITLE,
+  MACHINE_LIST_COMMANDS_SECTION_TITLE,
+  MACHINE_LIST_CREATE_ACTION_TITLE,
   MACHINE_LIST_MANAGE_SECTION_TITLE,
   MACHINE_LIST_OPEN_IN_BROWSER_ACTION_TITLE,
   MACHINE_LIST_REFRESH_ACTION_TITLE,
 } from "@/modules/machine/lib/list/constants";
 import {
   MACHINE_LIST_COPY_NAME_SHORTCUT,
+  MACHINE_LIST_CREATE_SHORTCUT,
   MACHINE_LIST_REFRESH_SHORTCUT,
 } from "@/modules/machine/lib/list/shortcuts";
 import type { ReactElement } from "react";
 
 type MachineListActionsProps = Readonly<{
   machine: Machine;
-  onRefresh: () => void;
-  onDeleted: () => void;
+  handleMachineListRefresh: () => void;
+  handleMachineDelete: () => void;
+  handleMachineCreate: () => void;
 }>;
 
 export function MachineListActions({
   machine,
-  onRefresh,
-  onDeleted,
+  handleMachineListRefresh,
+  handleMachineDelete,
+  handleMachineCreate,
 }: MachineListActionsProps): ReactElement {
   const manageActions = machineManageActionsForStatus(machine.status);
   const canDelete = machine.status !== "destroyed";
@@ -67,7 +73,7 @@ export function MachineListActions({
               shortcut={machineManageActionShortcut(action)}
               onAction={() =>
                 manageMachineWithFeedback(machine, action, {
-                  onComplete: onRefresh,
+                  handleMachineActionComplete: handleMachineListRefresh,
                 })
               }
             />
@@ -78,16 +84,26 @@ export function MachineListActions({
               icon={machineManageActionIcon("delete")}
               shortcut={machineManageActionShortcut("delete")}
               style={Action.Style.Destructive}
-              onAction={() => confirmDeleteMachine(machine, { onDeleted })}
+              onAction={() =>
+                confirmDeleteMachine(machine, { handleMachineDelete })
+              }
             />
           ) : null}
         </ActionPanel.Section>
       ) : null}
+      <ActionPanel.Section title={MACHINE_LIST_COMMANDS_SECTION_TITLE}>
+        <Action.Push
+          title={MACHINE_LIST_CREATE_ACTION_TITLE}
+          icon={Icon.Plus}
+          shortcut={MACHINE_LIST_CREATE_SHORTCUT}
+          target={<CreateMachine handleMachineCreate={handleMachineCreate} />}
+        />
+      </ActionPanel.Section>
       <Action
         title={MACHINE_LIST_REFRESH_ACTION_TITLE}
         icon={Icon.ArrowClockwise}
         shortcut={MACHINE_LIST_REFRESH_SHORTCUT}
-        onAction={onRefresh}
+        onAction={handleMachineListRefresh}
       />
     </ActionPanel>
   );

@@ -11,10 +11,12 @@ import type { ReactElement } from "react";
 
 type MachineListEmptyViewProps = Readonly<{
   region: SelectedRegion;
+  handleMachineCreate: () => void;
 }>;
 
 export function MachineListEmptyView({
   region,
+  handleMachineCreate,
 }: MachineListEmptyViewProps): ReactElement {
   const showingAllRegions = region === ALL_REGIONS;
 
@@ -32,7 +34,7 @@ export function MachineListEmptyView({
           <Action.Push
             title={MACHINE_LIST_CREATE_ACTION_TITLE}
             icon={Icon.Plus}
-            target={<CreateMachine />}
+            target={<CreateMachine handleMachineCreate={handleMachineCreate} />}
           />
         </ActionPanel>
       }

@@ -1,7 +1,6 @@
 import type { Machine } from "@boxd-sh/sdk";
-import { withBoxdClient } from "@/lib/boxd";
+import { boxdClient } from "@/lib/boxd";
 import type { MachineManageAction } from "@/modules/machine/lib/manage/actions";
-import { MANAGE_MACHINE_CLIENT_CLOSE_GRACE_PERIOD_MS } from "@/modules/machine/lib/manage/constants";
 
 export async function manageMachine(
   machine: Machine,
@@ -10,35 +9,30 @@ export async function manageMachine(
   const id = machine.id;
   const opts = machine.region ? { region: machine.region } : undefined;
 
-  await withBoxdClient(
-    async (client) => {
-      switch (action) {
-        case "start":
-          await client.startMachine(id, opts);
-          return;
-        case "stop":
-          await client.stopMachine(id, opts);
-          return;
-        case "reboot":
-          await client.rebootMachine(id, opts);
-          return;
-        case "pause":
-          await client.pauseMachine(id, opts);
-          return;
-        case "resume":
-          await client.resumeMachine(id, opts);
-          return;
-        case "hibernate":
-          await client.hibernateMachine(id, opts);
-          return;
-        case "wake":
-          await client.wakeMachine(id, opts);
-          return;
-        case "delete":
-          await client.deleteMachine(id, opts);
-          return;
-      }
-    },
-    { closeAfterMs: MANAGE_MACHINE_CLIENT_CLOSE_GRACE_PERIOD_MS },
-  );
+  switch (action) {
+    case "start":
+      await boxdClient.startMachine(id, opts);
+      return;
+    case "stop":
+      await boxdClient.stopMachine(id, opts);
+      return;
+    case "reboot":
+      await boxdClient.rebootMachine(id, opts);
+      return;
+    case "pause":
+      await boxdClient.pauseMachine(id, opts);
+      return;
+    case "resume":
+      await boxdClient.resumeMachine(id, opts);
+      return;
+    case "hibernate":
+      await boxdClient.hibernateMachine(id, opts);
+      return;
+    case "wake":
+      await boxdClient.wakeMachine(id, opts);
+      return;
+    case "delete":
+      await boxdClient.deleteMachine(id, opts);
+      return;
+  }
 }

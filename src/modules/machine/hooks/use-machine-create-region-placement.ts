@@ -14,7 +14,10 @@ export function useMachineCreateRegionPlacement(): MachineCreateRegionPlacementR
     isLoading: orgDefaultRegionLoading,
     error: orgDefaultRegionError,
     revalidate: reloadOrgDefaultRegion,
-  } = usePromise(() => boxdClient.getOrgDefaultRegion(), []);
+  } = usePromise(
+    () => boxdClient.getOrgDefaultRegion(),
+    [],
+  );
 
   const sortedRegions = useMemo(
     () => (regions ? sortRegionsByName(regions) : []),

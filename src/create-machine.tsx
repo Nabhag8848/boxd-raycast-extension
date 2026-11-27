@@ -1,4 +1,10 @@
-import { Action, Form } from "@raycast/api";
+import {
+  Action,
+  Form,
+  LaunchType,
+  launchCommand,
+  useNavigation,
+} from "@raycast/api";
 import { useForm } from "@raycast/utils";
 import { createMachineWithFeedback } from "@/modules/machine/actions";
 import {
@@ -19,8 +25,30 @@ import {
   FormAsyncLoadDescriptions,
   isAsyncLoadReady,
 } from "@/modules/shared";
+import { boxdClient } from "./lib/boxd";
 
-export default function Command() {
+type CreateMachineCommandProps = Readonly<{
+  handleMachineCreate?: () => void;
+}>;
+
+export default function Command({
+  handleMachineCreate,
+}: CreateMachineCommandProps) {
+  const { pop } = useNavigation();
+
+  const handleMachineCreateSuccess = async (): Promise<void> => {
+    if (handleMachineCreate) {
+      pop();
+      handleMachineCreate();
+      return;
+    }
+    // Close the client to avoid holding the channel open for the new command window.
+    await boxdClient.close();
+    await launchCommand({
+      name: "list-machines",
+      type: LaunchType.UserInitiated,
+    });
+  };
   const {
     sortedRegions,
     placementContext,
@@ -31,7 +59,11 @@ export default function Command() {
 
   const { handleSubmit, itemProps } = useForm<CreateMachineFormInput>({
     async onSubmit(values) {
-      await createMachineWithFeedback(values, placementContext);
+      await createMachineWithFeedback({
+        values,
+        placementContext,
+      });
+      await handleMachineCreateSuccess();
     },
     initialValues: {
       name: undefined,
