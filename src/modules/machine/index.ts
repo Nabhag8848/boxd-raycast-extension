@@ -4,6 +4,7 @@ export {
   MachineListEmptyView,
   MachineListItem,
   MachineNameFormField,
+  MachineOsFormField,
   MachineRegionFormField,
   SpecSizeFormField,
 } from "@/modules/machine/components";
@@ -15,6 +16,7 @@ export {
   CREATE_MACHINE_REGIONS_LOAD_ERROR_TITLE,
   CREATE_MACHINE_RELOAD_REGIONS_TITLE,
   CREATE_MACHINE_SUBMIT_ACTION_TITLE,
+  DEFAULT_MACHINE_OS,
   DEFAULT_REGION_FORM_VALUE,
   DEFAULT_SPEC_FORM_VALUE,
   toMachineCreateParams,
@@ -38,6 +40,7 @@ export {
 export type {
   IsolatedFormFieldProps,
   MachineNameFormFieldProps,
+  MachineOsFormFieldProps,
   MachineRegionFormFieldProps,
   MachineListResult,
   MachineCreateRegionPlacementResult,

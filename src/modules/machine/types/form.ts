@@ -11,6 +11,12 @@ export type MachineNameFormFieldProps = Omit<
   "title" | "placeholder" | "info"
 >;
 
+/** `title`, `info`, and `children` are set inside {@link MachineOsFormField}. */
+export type MachineOsFormFieldProps = Omit<
+  FormDropdownFieldProps,
+  "title" | "info" | "children"
+>;
+
 /** Region list and field chrome are set inside {@link MachineRegionFormField}. */
 export type MachineRegionFormFieldProps = Omit<
   FormDropdownFieldProps,

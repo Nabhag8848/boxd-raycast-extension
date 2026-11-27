@@ -1,6 +1,7 @@
 export {
   IsolatedFormField,
   MachineNameFormField,
+  MachineOsFormField,
   MachineRegionFormField,
   SpecSizeFormField,
 } from "@/modules/machine/components/form";

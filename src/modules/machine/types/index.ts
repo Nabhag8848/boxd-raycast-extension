@@ -5,6 +5,7 @@ export type {
 export type {
   IsolatedFormFieldProps,
   MachineNameFormFieldProps,
+  MachineOsFormFieldProps,
   MachineRegionFormFieldProps,
   SpecSizeFormFieldProps,
 } from "@/modules/machine/types/form";

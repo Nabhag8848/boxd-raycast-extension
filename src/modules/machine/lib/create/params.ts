@@ -12,12 +12,14 @@ import {
   isOrgDefaultMachineSize,
   type SpecFormValue,
 } from "@/modules/machine/lib/create/sizes";
+import { toMachineOs } from "@/modules/machine/lib/create/os";
 
 export type CreateMachineFormInput = Readonly<{
   name?: string;
   /** Always set in the form ({@link DEFAULT_REGION_FORM_VALUE} by default). */
   region: RegionFormValue;
   size: SpecFormValue;
+  os: string;
   isolated: boolean;
 }>;
 
@@ -44,17 +46,20 @@ export function toMachineCreateParams(
   const region = toMachineCreateRegion(input.region, placement);
   const name = input.name?.trim();
   const spec = toMachineSpec(input.size, input.isolated);
+  const os = toMachineOs(input.os);
 
   if (name) {
     return {
       name,
       region,
       spec,
+      os,
     };
   }
 
   return {
     region,
     spec,
+    os,
   };
 }
